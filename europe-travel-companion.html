@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>European Travel Companion</title>
+  <style>
+    :root {
+      --bg: #071018;
+      --bg2: #0d1822;
+      --panel: rgba(15, 26, 37, 0.94);
+      --panel2: rgba(18, 33, 48, 0.92);
+      --text: #e8f1fb;
+      --muted: #9ab0c5;
+      --line: rgba(110, 188, 255, 0.16);
+      --cyan: #6fe0ff;
+      --blue: #7da8ff;
+      --amber: #f2bc62;
+      --gold: #ffd66b;
+      --gold2: #ffea9b;
+      --green: #68d6a3;
+      --red: #ff8c8c;
+      --shadow: 0 18px 54px rgba(0, 0, 0, 0.34);
+      --radius: 22px;
+      --radius-sm: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(111,224,255,.12), transparent 26%),
+        radial-gradient(circle at top right, rgba(255,214,107,.09), transparent 24%),
+        linear-gradient(180deg, var(--bg2), #04080d 72%);
+      line-height: 1.5;
+    }
+    a { color: var(--cyan); }
+    .wrap { max-width: 1440px; margin: 0 auto; padding: 18px 16px 90px; }
+    .hero {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 20px;
+      background: linear-gradient(180deg, rgba(111,224,255,.08), rgba(247,201,72,.05), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+    .hero-top { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; flex-wrap:wrap; }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .logo {
+      width: 62px; height: 62px; border-radius: 18px; display: grid; place-items: center;
+      border: 1px solid rgba(255,214,107,.28);
+      background: linear-gradient(135deg, rgba(111,224,255,.18), rgba(255,214,107,.18));
+      font-weight: 800; letter-spacing: .08em; color: var(--gold2);
+      box-shadow: inset 0 0 20px rgba(255,214,107,.08);
+    }
+    .eyebrow { font-size: 12px; color: var(--gold2); text-transform: uppercase; letter-spacing: .22em; }
+    h1 { margin: 6px 0 8px; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.04; }
+    .lead { color: var(--muted); max-width: 940px; }
+    .chips, .stats, .actions, .subnav { display:flex; gap:10px; flex-wrap:wrap; }
+    .chip, .pill {
+      border: 1px solid rgba(255,214,107,.22);
+      background: rgba(255,214,107,.08);
+      color: var(--gold2);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+    .subnav button, .actions button, .actions label {
+      border:1px solid rgba(111,224,255,.22);
+      background: rgba(111,224,255,.08);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .actions .warm, .subnav .active { background: rgba(255,214,107,.10); border-color: rgba(255,214,107,.28); }
+    input, textarea, select {
+      width:100%;
+      background: rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      color:var(--text);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font: inherit;
+    }
+    textarea { min-height: 100px; resize: vertical; }
+    .grid { display:grid; gap:16px; }
+    .g2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .g3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .g4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    @media (max-width: 1080px){ .g4,.g3{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 780px){ .g2,.g3,.g4{ grid-template-columns: 1fr; } .hero{ position:relative; } }
+    .card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.012));
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .card h2, .card h3 { margin:0 0 10px; }
+    .muted { color: var(--muted); }
+    .small { font-size: .92rem; }
+    .kpi {
+      border: 1px solid rgba(255,214,107,.18);
+      background: linear-gradient(180deg, rgba(255,214,107,.05), rgba(255,255,255,.02));
+      border-radius: 18px;
+      padding: 15px;
+    }
+    .kpi strong { display:block; font-size: 1.34rem; color: var(--gold2); margin-bottom: 4px; }
+    .list { display:grid; gap:12px; }
+    .item {
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background: rgba(255,255,255,.025);
+    }
+    .row { display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    .row-start { display:flex; gap:12px; align-items:flex-start; }
+    .tag { display:inline-block; font-size:11px; padding:4px 8px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.03); }
+    .ok { color: var(--green); }
+    .warn { color: var(--amber); }
+    .bad { color: var(--red); }
+    .section-title { margin: 22px 0 10px; font-size:1.22rem; color:var(--gold2); }
+    .hidden { display:none !important; }
+    .check { display:flex; gap:10px; align-items:flex-start; }
+    .check input[type="checkbox"] { width:18px; height:18px; margin-top:2px; }
+    .mini { font-size:12px; color:var(--muted); }
+    .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .toolbar button { border:1px solid var(--line); background:rgba(255,255,255,.04); color:var(--text); border-radius:10px; padding:8px 12px; cursor:pointer; }
+    .empty { padding:18px; border:1px dashed var(--line); border-radius:16px; color:var(--muted); }
+    .danger { border-color: rgba(255,140,140,.28) !important; background: rgba(255,140,140,.08) !important; }
+    .good { border-color: rgba(104,214,163,.28) !important; background: rgba(104,214,163,.08) !important; }
+    .callout {
+      border-left: 4px solid var(--gold);
+      padding: 12px 14px;
+      background: rgba(255,214,107,.06);
+      border-radius: 0 14px 14px 0;
+      margin-top: 10px;
+    }
+    .iconbox {
+      width:44px; height:44px; border-radius:14px; display:grid; place-items:center;
+      background: rgba(111,224,255,.08); border:1px solid rgba(111,224,255,.18); flex:0 0 auto;
+    }
+    .footer { margin-top: 28px; text-align:center; color: var(--muted); font-size:.94rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="brand">
+            <div class="logo">EU</div>
+            <div>
+              <div class="eyebrow">Personal Travel Companion</div>
+              <h1 id="heroTitle">European Travel Companion</h1>
+              <p class="lead">A dead-simple, high-value trip helper that works offline, keeps everything in one place, and is built for a solo traveler who should not have to fight technology.</p>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="exportBtn">Export Trip File</button>
+          <label for="importFile">Import Trip File</label>
+          <input id="importFile" type="file" accept="application/json" class="hidden" />
+          <button id="printBtn" class="warm">Print / Save PDF</button>
+          <button id="resetBtn" class="danger">Reset Local Data</button>
+        </div>
+      </div>
+      <div class="chips" style="margin-top:12px;">
+        <span class="chip">Offline-first</span>
+        <span class="chip">Simple language</span>
+        <span class="chip">Trip dashboard</span>
+        <span class="chip">Journal + memories</span>
+        <span class="chip">Emergency info</span>
+        <span class="chip">Packing + documents</span>
+      </div>
+      <div class="subnav" style="margin-top:14px;">
+        <button data-tab="overview" class="active">Overview</button>
+        <button data-tab="itinerary">Itinerary</button>
+        <button data-tab="essentials">Essentials</button>
+        <button data-tab="journal">Journal</button>
+        <button data-tab="tips">Tips</button>
+        <button data-tab="memories">Mementos</button>
+        <button data-tab="settings">Setup</button>
+      </div>
+    </section>
+
+    <section id="tab-overview" class="tab grid g2">
+      <div class="card">
+        <h2>Trip snapshot</h2>
+        <div class="grid g3" id="snapshotGrid"></div>
+        <div class="callout" id="tripMessage">Add the trip dates and first city in Setup to bring this to life.</div>
+      </div>
+      <div class="card">
+        <h2>Today at a glance</h2>
+        <div id="todayCard"></div>
+      </div>
+      <div class="card">
+        <h2>Next move</h2>
+        <div id="nextMoveCard"></div>
+      </div>
+      <div class="card">
+        <h2>Quick safety card</h2>
+        <div id="safetyCard"></div>
+      </div>
+      <div class="card">
+        <h2>Important documents</h2>
+        <div id="docsCard"></div>
+      </div>
+      <div class="card">
+        <h2>Simple travel routine</h2>
+        <div class="list">
+          <div class="item"><strong>Night:</strong> charge phone, power bank, and check tomorrow's address.</div>
+          <div class="item"><strong>Morning:</strong> screenshot tickets, confirm route, carry one cable and one bank.</div>
+          <div class="item"><strong>Transit:</strong> use the small battery first, keep passport and phone easy to reach.</div>
+          <div class="item"><strong>Arrival:</strong> plug in immediately, verify tomorrow's plan, and save one journal note.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-itinerary" class="tab hidden">
+      <div class="grid g2">
+        <div class="card">
+          <h2>Add stop or reservation</h2>
+          <div class="grid g2">
+            <div><label class="mini">Date</label><input id="stopDate" type="date"></div>
+            <div><label class="mini">Time</label><input id="stopTime" type="time"></div>
+            <div><label class="mini">City</label><input id="stopCity" placeholder="Paris"></div>
+            <div><label class="mini">Type</label>
+              <select id="stopType">
+                <option>Stay</option>
+                <option>Train</option>
+                <option>Flight</option>
+                <option>Tour</option>
+                <option>Reminder</option>
+                <option>Dinner</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">Title</label><input id="stopTitle" placeholder="Hotel check-in"></div>
+          <div style="margin-top:12px;"><label class="mini">Address / Location</label><input id="stopAddress" placeholder="Street, hotel, terminal, platform"></div>
+          <div style="margin-top:12px;"><label class="mini">Confirmation / note</label><textarea id="stopNote" placeholder="Reservation number, door code, seat, who to call..."></textarea></div>
+          <div class="toolbar">
+            <button id="addStopBtn">Add to itinerary</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Itinerary timeline</h2>
+          <div id="itineraryList" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-essentials" class="tab hidden">
+      <div class="grid g2">
+        <div class="card">
+          <h2>Packing checklist</h2>
+          <div class="grid g2">
+            <div><label class="mini">Item</label><input id="packName" placeholder="Passport"></div>
+            <div><label class="mini">Category</label><input id="packCategory" placeholder="Documents, clothes, meds"></div>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">Note</label><input id="packNote" placeholder="Keep in personal item"></div>
+          <div class="toolbar"><button id="addPackBtn">Add item</button></div>
+          <div id="packList" class="list" style="margin-top:14px;"></div>
+        </div>
+        <div class="card">
+          <h2>Travel documents & contacts</h2>
+          <div class="grid g2">
+            <div><label class="mini">Document name</label><input id="docName" placeholder="Passport copy"></div>
+            <div><label class="mini">Where stored</label><input id="docLocation" placeholder="Phone, email, SSD, paper"></div>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">Extra note</label><input id="docNote" placeholder="Folder name, email subject, etc."></div>
+          <div class="toolbar"><button id="addDocBtn">Add document</button></div>
+          <div id="docList" class="list" style="margin-top:14px;"></div>
+          <h3 class="section-title">Emergency contacts</h3>
+          <div class="grid g2">
+            <div><label class="mini">Name</label><input id="contactName" placeholder="Daughter, hotel, doctor"></div>
+            <div><label class="mini">Phone / WhatsApp</label><input id="contactPhone" placeholder="+1 ..."></div>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">Why this matters</label><input id="contactRole" placeholder="Primary check-in, embassy, card support"></div>
+          <div class="toolbar"><button id="addContactBtn">Add contact</button></div>
+          <div id="contactList" class="list" style="margin-top:14px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-journal" class="tab hidden">
+      <div class="grid g2">
+        <div class="card">
+          <h2>New journal entry</h2>
+          <div class="grid g2">
+            <div><label class="mini">Date</label><input id="journalDate" type="date"></div>
+            <div><label class="mini">City</label><input id="journalCity" placeholder="Rome"></div>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">Mood</label>
+            <select id="journalMood">
+              <option>Happy</option>
+              <option>Calm</option>
+              <option>Tired</option>
+              <option>Excited</option>
+              <option>Overwhelmed</option>
+              <option>Grateful</option>
+            </select>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">What happened today</label><textarea id="journalText" placeholder="Simple notes, what went well, what to remember, where you ate, how you felt..."></textarea></div>
+          <div class="toolbar"><button id="addJournalBtn">Save journal entry</button></div>
+        </div>
+        <div class="card">
+          <h2>Journal timeline</h2>
+          <div id="journalList" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-tips" class="tab hidden">
+      <div class="grid g2">
+        <div class="card">
+          <h2>Helpful tips & knowledge base</h2>
+          <p class="muted">Keep a personal list of the advice that matters for this exact trip.</p>
+          <div class="grid g2">
+            <div><label class="mini">Tip title</label><input id="tipTitle" placeholder="Train day routine"></div>
+            <div><label class="mini">Category</label><input id="tipCategory" placeholder="Transit, phone, safety"></div>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">Simple advice</label><textarea id="tipText" placeholder="Download the map the night before. Screenshot platform info. Keep one snack in your bag."></textarea></div>
+          <div class="toolbar"><button id="addTipBtn">Save tip</button></div>
+          <div id="tipList" class="list" style="margin-top:14px;"></div>
+        </div>
+        <div class="card">
+          <h2>Built-in smart suggestions</h2>
+          <div class="list" id="smartTips"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-memories" class="tab hidden">
+      <div class="grid g2">
+        <div class="card">
+          <h2>Memento builder</h2>
+          <div class="grid g2">
+            <div><label class="mini">Date</label><input id="memoryDate" type="date"></div>
+            <div><label class="mini">Place</label><input id="memoryPlace" placeholder="Venice"></div>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">Why it mattered</label><input id="memoryTitle" placeholder="Morning coffee by the canal"></div>
+          <div style="margin-top:12px;"><label class="mini">Details to keep forever</label><textarea id="memoryText" placeholder="What it smelled like, sounded like, who was there, what made it special..."></textarea></div>
+          <div class="toolbar"><button id="addMemoryBtn">Save memento</button></div>
+        </div>
+        <div class="card">
+          <h2>Memory collection</h2>
+          <div id="memoryList" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-settings" class="tab hidden">
+      <div class="grid g2">
+        <div class="card">
+          <h2>Traveler setup</h2>
+          <div class="grid g2">
+            <div><label class="mini">Traveler name</label><input id="travelerName" placeholder="Mom"></div>
+            <div><label class="mini">Trip name</label><input id="tripName" placeholder="Europe Spring 2026"></div>
+            <div><label class="mini">Start date</label><input id="tripStart" type="date"></div>
+            <div><label class="mini">End date</label><input id="tripEnd" type="date"></div>
+            <div><label class="mini">Home check-in contact</label><input id="homeContact" placeholder="Who should be updated"></div>
+            <div><label class="mini">Primary country / region</label><input id="tripRegion" placeholder="France, Italy, UK"></div>
+          </div>
+          <div style="margin-top:12px;"><label class="mini">Simple travel goal</label><textarea id="tripGoal" placeholder="See family, enjoy museums, stay relaxed, keep everything easy."></textarea></div>
+          <div class="toolbar"><button id="saveProfileBtn">Save traveler setup</button></div>
+        </div>
+        <div class="card">
+          <h2>Offline readiness</h2>
+          <div class="list">
+            <div class="item good"><strong>Good news:</strong> this page works without internet once saved on the device because everything is built into one file and stored locally.</div>
+            <div class="item"><strong>Best practice:</strong> keep one copy on the laptop, one copy on the phone files app, and one exported JSON backup in email or cloud storage.</div>
+            <div class="item"><strong>Before travel:</strong> save the file, open it once, enter the basics, then export a trip file after each major update.</div>
+            <div class="item"><strong>For a printed backup:</strong> use the Print / Save PDF button and keep a simple paper copy of contacts, first hotel, passport info, and flight numbers.</div>
+          </div>
+          <h3 class="section-title">Suggested starter data</h3>
+          <div class="toolbar">
+            <button id="seedBtn">Load starter examples</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer">Built as a single-file offline travel companion. Save it, duplicate it per trip, and export data often.</p>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'euTravelCompanion_v1';
+    const tabs = ['overview','itinerary','essentials','journal','tips','memories','settings'];
+    const defaultState = {
+      profile: {
+        travelerName: '', tripName: '', tripStart: '', tripEnd: '', homeContact: '', tripRegion: '', tripGoal: ''
+      },
+      itinerary: [],
+      packing: [
+        { id: crypto.randomUUID(), name: 'Passport', category: 'Documents', note: 'Keep in personal item', packed: false },
+        { id: crypto.randomUUID(), name: 'Phone charger', category: 'Tech', note: 'Carry-on', packed: false },
+        { id: crypto.randomUUID(), name: 'Prescription medicine', category: 'Health', note: 'Original bottles', packed: false }
+      ],
+      documents: [
+        { id: crypto.randomUUID(), name: 'Passport copy', location: 'Phone + email', note: 'PDF and screenshots' },
+        { id: crypto.randomUUID(), name: 'Flight confirmations', location: 'Email + screenshots', note: 'Save offline' }
+      ],
+      contacts: [],
+      journal: [],
+      tips: [],
+      memories: []
+    };
+
+    let state = loadState();
+
+    function loadState(){
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? { ...structuredClone(defaultState), ...JSON.parse(raw) } : structuredClone(defaultState);
+      } catch (e) {
+        return structuredClone(defaultState);
+      }
+    }
+
+    function saveState(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderAll();
+    }
+
+    function fmtDate(dateString){
+      if(!dateString) return '—';
+      const d = new Date(dateString + 'T12:00:00');
+      return isNaN(d) ? dateString : d.toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
+    }
+
+    function daysBetween(start, end){
+      if(!start || !end) return null;
+      const s = new Date(start + 'T12:00:00');
+      const e = new Date(end + 'T12:00:00');
+      return Math.round((e - s) / 86400000) + 1;
+    }
+
+    function upcomingStops(){
+      return [...state.itinerary].sort((a,b)=> `${a.date} ${a.time||''}`.localeCompare(`${b.date} ${b.time||''}`));
+    }
+
+    function renderAll(){
+      renderProfileFields();
+      renderHeader();
+      renderOverview();
+      renderItinerary();
+      renderPacking();
+      renderDocuments();
+      renderContacts();
+      renderJournal();
+      renderTips();
+      renderMemories();
+    }
+
+    function renderProfileFields(){
+      for (const [k,v] of Object.entries(state.profile)) {
+        const el = document.getElementById(k);
+        if (el) el.value = v || '';
+      }
+    }
+
+    function renderHeader(){
+      const name = state.profile.tripName || 'European Travel Companion';
+      document.getElementById('heroTitle').textContent = name;
+    }
+
+    function renderOverview(){
+      const snapshot = document.getElementById('snapshotGrid');
+      const duration = daysBetween(state.profile.tripStart, state.profile.tripEnd);
+      const packed = state.packing.filter(x=>x.packed).length;
+      const next = upcomingStops()[0];
+      const cards = [
+        ['Traveler', state.profile.travelerName || 'Not set'],
+        ['Trip length', duration ? `${duration} days` : 'Not set'],
+        ['Stops saved', `${state.itinerary.length}`],
+        ['Packed items', `${packed}/${state.packing.length}`],
+        ['Journal entries', `${state.journal.length}`],
+        ['Memories saved', `${state.memories.length}`]
+      ];
+      snapshot.innerHTML = cards.map(([a,b])=>`<div class="kpi"><strong>${b}</strong><span class="muted">${a}</span></div>`).join('');
+
+      const msg = document.getElementById('tripMessage');
+      const traveler = state.profile.travelerName || 'Traveler';
+      if (next) {
+        msg.innerHTML = `<strong>${traveler}</strong>, your next saved stop is <strong>${next.title}</strong> in <strong>${next.city || 'your next city'}</strong> on <strong>${fmtDate(next.date)}</strong>.`;
+      } else {
+        msg.innerHTML = `Add the trip dates and first city in Setup to bring this to life.`;
+      }
+
+      document.getElementById('todayCard').innerHTML = `
+        <div class="list">
+          <div class="item"><strong>Name:</strong> ${state.profile.travelerName || 'Add traveler name in Setup'}</div>
+          <div class="item"><strong>Goal:</strong> ${state.profile.tripGoal || 'Add a simple goal for the trip.'}</div>
+          <div class="item"><strong>Home check-in:</strong> ${state.profile.homeContact || 'Add a primary contact.'}</div>
+        </div>`;
+
+      document.getElementById('nextMoveCard').innerHTML = next ? `
+        <div class="item good">
+          <div class="row"><strong>${next.title}</strong><span class="tag">${next.type}</span></div>
+          <div class="muted">${fmtDate(next.date)} ${next.time || ''}</div>
+          <div>${next.city || ''}${next.address ? ' · ' + next.address : ''}</div>
+          <div class="mini">${next.note || 'No extra note yet.'}</div>
+        </div>` : `<div class="empty">No upcoming stop yet. Add one in Itinerary.</div>`;
+
+      document.getElementById('safetyCard').innerHTML = `
+        <div class="list">
+          <div class="item"><strong>Keep easy:</strong> passport, phone, one payment card, and first-night address.</div>
+          <div class="item"><strong>Always saved:</strong> screenshots of major tickets and hotel details.</div>
+          <div class="item"><strong>Fallback:</strong> exported trip file + printed PDF copy.</div>
+        </div>`;
+
+      document.getElementById('docsCard').innerHTML = state.documents.length
+        ? state.documents.slice(0,4).map(d=>`<div class="item"><strong>${d.name}</strong><div class="mini">${d.location}</div><div class="muted small">${d.note || ''}</div></div>`).join('')
+        : `<div class="empty">No documents saved yet.</div>`;
+    }
+
+    function renderItinerary(){
+      const el = document.getElementById('itineraryList');
+      const items = upcomingStops();
+      el.innerHTML = items.length ? items.map(item => `
+        <div class="item">
+          <div class="row">
+            <div>
+              <strong>${item.title}</strong>
+              <div class="mini">${fmtDate(item.date)} ${item.time || ''}</div>
+            </div>
+            <div>
+              <span class="tag">${item.type}</span>
+              <button onclick="removeItem('itinerary','${item.id}')">Delete</button>
+            </div>
+          </div>
+          <div>${item.city || ''}${item.address ? ' · ' + item.address : ''}</div>
+          <div class="muted small">${item.note || 'No extra note.'}</div>
+        </div>`).join('') : `<div class="empty">No itinerary items yet.</div>`;
+    }
+
+    function renderPacking(){
+      const el = document.getElementById('packList');
+      el.innerHTML = state.packing.length ? state.packing.map(item => `
+        <div class="item ${item.packed ? 'good' : ''}">
+          <label class="check">
+            <input type="checkbox" ${item.packed ? 'checked' : ''} onchange="togglePacked('${item.id}')">
+            <div>
+              <strong>${item.name}</strong> <span class="tag">${item.category || 'General'}</span>
+              <div class="muted small">${item.note || ''}</div>
+            </div>
+          </label>
+          <div class="toolbar"><button onclick="removeItem('packing','${item.id}')">Delete</button></div>
+        </div>`).join('') : `<div class="empty">No packing items yet.</div>`;
+    }
+
+    function renderDocuments(){
+      const el = document.getElementById('docList');
+      el.innerHTML = state.documents.length ? state.documents.map(item => `
+        <div class="item">
+          <div class="row"><strong>${item.name}</strong><button onclick="removeItem('documents','${item.id}')">Delete</button></div>
+          <div class="mini">Stored in: ${item.location || '—'}</div>
+          <div class="muted small">${item.note || ''}</div>
+        </div>`).join('') : `<div class="empty">No document notes yet.</div>`;
+    }
+
+    function renderContacts(){
+      const el = document.getElementById('contactList');
+      el.innerHTML = state.contacts.length ? state.contacts.map(item => `
+        <div class="item">
+          <div class="row"><strong>${item.name}</strong><button onclick="removeItem('contacts','${item.id}')">Delete</button></div>
+          <div>${item.phone || ''}</div>
+          <div class="muted small">${item.role || ''}</div>
+        </div>`).join('') : `<div class="empty">No emergency contacts yet.</div>`;
+    }
+
+    function renderJournal(){
+      const el = document.getElementById('journalList');
+      const items = [...state.journal].sort((a,b)=> b.date.localeCompare(a.date));
+      el.innerHTML = items.length ? items.map(item => `
+        <div class="item">
+          <div class="row"><strong>${item.city || 'Journal entry'}</strong><button onclick="removeItem('journal','${item.id}')">Delete</button></div>
+          <div class="mini">${fmtDate(item.date)} · ${item.mood}</div>
+          <div>${escapeHtml(item.text).replace(/\n/g,'<br>')}</div>
+        </div>`).join('') : `<div class="empty">No journal entries yet.</div>`;
+    }
+
+    function renderTips(){
+      const el = document.getElementById('tipList');
+      const smart = document.getElementById('smartTips');
+      el.innerHTML = state.tips.length ? state.tips.map(item => `
+        <div class="item">
+          <div class="row"><strong>${item.title}</strong><button onclick="removeItem('tips','${item.id}')">Delete</button></div>
+          <div class="mini">${item.category || 'General'}</div>
+          <div>${escapeHtml(item.text).replace(/\n/g,'<br>')}</div>
+        </div>`).join('') : `<div class="empty">No custom tips yet.</div>`;
+      const builtins = [
+        ['Arrival Night', 'Find the room, charge the phone, confirm tomorrow, then relax.'],
+        ['Train Day', 'Screenshot ticket, platform, and hotel address before leaving Wi‑Fi.'],
+        ['Phone Data', 'Use text and messaging first. Save video uploads for Wi‑Fi.'],
+        ['Money', 'Keep one card in the wallet and one card separate as backup.'],
+        ['Simple Safety', 'If tired or unsure, go back to the hotel, reset, and decide from there.']
+      ];
+      smart.innerHTML = builtins.map(([t, d]) => `<div class="item"><strong>${t}</strong><div class="muted small">${d}</div></div>`).join('');
+    }
+
+    function renderMemories(){
+      const el = document.getElementById('memoryList');
+      const items = [...state.memories].sort((a,b)=> b.date.localeCompare(a.date));
+      el.innerHTML = items.length ? items.map(item => `
+        <div class="item">
+          <div class="row"><strong>${item.title}</strong><button onclick="removeItem('memories','${item.id}')">Delete</button></div>
+          <div class="mini">${fmtDate(item.date)} · ${item.place || ''}</div>
+          <div>${escapeHtml(item.text).replace(/\n/g,'<br>')}</div>
+        </div>`).join('') : `<div class="empty">No memories saved yet.</div>`;
+    }
+
+    function escapeHtml(s){
+      return (s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    }
+
+    function addItinerary(){
+      const item = {
+        id: crypto.randomUUID(),
+        date: val('stopDate'), time: val('stopTime'), city: val('stopCity'), type: val('stopType'),
+        title: val('stopTitle'), address: val('stopAddress'), note: val('stopNote')
+      };
+      if (!item.date || !item.title) return alert('Please add at least a date and title.');
+      state.itinerary.push(item);
+      clearFields(['stopDate','stopTime','stopCity','stopTitle','stopAddress','stopNote']);
+      saveState();
+    }
+
+    function addPack(){
+      const item = { id: crypto.randomUUID(), name: val('packName'), category: val('packCategory'), note: val('packNote'), packed: false };
+      if (!item.name) return alert('Please add an item name.');
+      state.packing.push(item);
+      clearFields(['packName','packCategory','packNote']);
+      saveState();
+    }
+
+    function addDoc(){
+      const item = { id: crypto.randomUUID(), name: val('docName'), location: val('docLocation'), note: val('docNote') };
+      if (!item.name) return alert('Please add a document name.');
+      state.documents.push(item);
+      clearFields(['docName','docLocation','docNote']);
+      saveState();
+    }
+
+    function addContact(){
+      const item = { id: crypto.randomUUID(), name: val('contactName'), phone: val('contactPhone'), role: val('contactRole') };
+      if (!item.name) return alert('Please add a contact name.');
+      state.contacts.push(item);
+      clearFields(['contactName','contactPhone','contactRole']);
+      saveState();
+    }
+
+    function addJournal(){
+      const item = { id: crypto.randomUUID(), date: val('journalDate') || new Date().toISOString().slice(0,10), city: val('journalCity'), mood: val('journalMood'), text: val('journalText') };
+      if (!item.text) return alert('Please write a journal note.');
+      state.journal.push(item);
+      clearFields(['journalDate','journalCity','journalText']);
+      saveState();
+    }
+
+    function addTip(){
+      const item = { id: crypto.randomUUID(), title: val('tipTitle'), category: val('tipCategory'), text: val('tipText') };
+      if (!item.title || !item.text) return alert('Please add a tip title and advice.');
+      state.tips.push(item);
+      clearFields(['tipTitle','tipCategory','tipText']);
+      saveState();
+    }
+
+    function addMemory(){
+      const item = { id: crypto.randomUUID(), date: val('memoryDate') || new Date().toISOString().slice(0,10), place: val('memoryPlace'), title: val('memoryTitle'), text: val('memoryText') };
+      if (!item.title || !item.text) return alert('Please add a title and details.');
+      state.memories.push(item);
+      clearFields(['memoryDate','memoryPlace','memoryTitle','memoryText']);
+      saveState();
+    }
+
+    function val(id){ return document.getElementById(id).value.trim(); }
+    function clearFields(ids){ ids.forEach(id => document.getElementById(id).value = ''); }
+
+    window.togglePacked = function(id){
+      const item = state.packing.find(x=>x.id===id);
+      if(item){ item.packed = !item.packed; saveState(); }
+    }
+
+    window.removeItem = function(listName, id){
+      state[listName] = state[listName].filter(x => x.id !== id);
+      saveState();
+    }
+
+    function saveProfile(){
+      state.profile = {
+        travelerName: val('travelerName'),
+        tripName: val('tripName'),
+        tripStart: val('tripStart'),
+        tripEnd: val('tripEnd'),
+        homeContact: val('homeContact'),
+        tripRegion: val('tripRegion'),
+        tripGoal: val('tripGoal')
+      };
+      saveState();
+      alert('Traveler setup saved.');
+    }
+
+    function exportData(){
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const slug = (state.profile.tripName || 'trip').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+      a.download = `${slug || 'trip'}-travel-companion.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importData(file){
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          state = { ...structuredClone(defaultState), ...JSON.parse(reader.result) };
+          saveState();
+          alert('Trip file imported.');
+        } catch (e) {
+          alert('Could not read that file.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetData(){
+      if (!confirm('Delete all local trip data from this browser?')) return;
+      state = structuredClone(defaultState);
+      saveState();
+    }
+
+    function loadSeed(){
+      state.profile = {
+        travelerName: 'Mom',
+        tripName: 'Europe Companion Trip',
+        tripStart: '2026-05-10',
+        tripEnd: '2026-06-10',
+        homeContact: 'Primary family check-in',
+        tripRegion: 'France, Italy, UK',
+        tripGoal: 'Stay relaxed, keep everything simple, and save meaningful memories.'
+      };
+      state.itinerary = [
+        { id: crypto.randomUUID(), date:'2026-05-10', time:'14:30', city:'Paris', type:'Flight', title:'Arrive in Paris', address:'CDG Airport', note:'Open first hotel address before landing.' },
+        { id: crypto.randomUUID(), date:'2026-05-14', time:'09:15', city:'Paris', type:'Train', title:'Train to Lyon', address:'Gare de Lyon', note:'Screenshot ticket and platform.' },
+        { id: crypto.randomUUID(), date:'2026-05-21', time:'16:00', city:'Rome', type:'Stay', title:'Hotel check-in', address:'Central Rome hotel', note:'Have confirmation ready.' }
+      ];
+      state.contacts = [
+        { id: crypto.randomUUID(), name:'Family check-in', phone:'+1 example', role:'Daily update person' },
+        { id: crypto.randomUUID(), name:'Card support', phone:'Back of card', role:'Payment emergency' }
+      ];
+      state.tips = [
+        { id: crypto.randomUUID(), title:'Move day', category:'Transit', text:'Charge everything the night before, screenshot tickets, and carry snacks and water.' },
+        { id: crypto.randomUUID(), title:'Hotel arrival', category:'Lodging', text:'Ask for the Wi‑Fi password right away and save the address before leaving again.' }
+      ];
+      saveState();
+      alert('Starter data loaded.');
+    }
+
+    document.querySelectorAll('.subnav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.subnav button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const target = btn.dataset.tab;
+        tabs.forEach(tab => document.getElementById('tab-' + tab).classList.toggle('hidden', tab !== target));
+      });
+    });
+
+    document.getElementById('addStopBtn').addEventListener('click', addItinerary);
+    document.getElementById('addPackBtn').addEventListener('click', addPack);
+    document.getElementById('addDocBtn').addEventListener('click', addDoc);
+    document.getElementById('addContactBtn').addEventListener('click', addContact);
+    document.getElementById('addJournalBtn').addEventListener('click', addJournal);
+    document.getElementById('addTipBtn').addEventListener('click', addTip);
+    document.getElementById('addMemoryBtn').addEventListener('click', addMemory);
+    document.getElementById('saveProfileBtn').addEventListener('click', saveProfile);
+    document.getElementById('exportBtn').addEventListener('click', exportData);
+    document.getElementById('importFile').addEventListener('change', (e) => e.target.files[0] && importData(e.target.files[0]));
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+    document.getElementById('resetBtn').addEventListener('click', resetData);
+    document.getElementById('seedBtn').addEventListener('click', loadSeed);
+
+    if (!state.journal.length) document.getElementById('journalDate').value = new Date().toISOString().slice(0,10);
+    document.getElementById('memoryDate').value = new Date().toISOString().slice(0,10);
+    document.getElementById('journalDate').value = new Date().toISOString().slice(0,10);
+    renderAll();
+  </script>
+</body>
+</html>

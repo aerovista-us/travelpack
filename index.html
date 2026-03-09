@@ -69,7 +69,7 @@
     }
     .eyebrow { font-size: 12px; color: var(--gold2); text-transform: uppercase; letter-spacing: .22em; }
     h1 { margin: 0 0 10px; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; }
-    h2.section { margin: 26px 0 14px; font-size: 1.34rem; color: var(--gold2); }
+    h2.section { margin: 34px 0 14px; font-size: 1.34rem; color: var(--gold2); }
     h3 { margin: 0 0 10px; }
     .lead { max-width: 980px; color: var(--muted); font-size: 1.04rem; }
     .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
@@ -146,6 +146,13 @@
       border-radius:18px;
     }
     .footer { margin-top: 28px; text-align:center; color: var(--muted); font-size:.94rem; }
+    .toc {
+      margin: 12px 0 10px;
+      font-size: .94rem;
+      color: var(--muted);
+    }
+    .toc strong { display:block; margin-bottom: 4px; color: var(--gold2); }
+    .toc a { color: var(--cyan); margin-right: 10px; }
     code.inline {
       padding: 2px 8px; border-radius: 9px; border:1px solid var(--line); background: rgba(255,255,255,.04); color:#d9ebff;
     }
@@ -159,6 +166,7 @@
   </style>
 </head>
 <body>
+  <main>
   <div class="wrap">
     <section class="hero">
       <div class="brand">
@@ -179,9 +187,19 @@
         <span class="chip">Intl. text & data included</span>
         <span class="chip">$0.25/min voice calls</span>
         <span class="chip">Wi‑Fi calling available</span>
-        <span class="chip">EU + UK plug coverage</span>
+        <span class="chip">Italy plugs (Type C/E/F)</span>
       </div>
     </section>
+
+    <nav class="toc" aria-label="On this page">
+      <strong>On this page</strong>
+      <a href="#gear-system">Gear system</a>
+      <a href="#connectivity">T‑Mobile &amp; data</a>
+      <a href="#diagrams">Diagrams</a>
+      <a href="#product-picks">Product picks</a>
+      <a href="#pack-tiers">Pack tiers</a>
+      <a href="#final-stack">Final stack</a>
+    </nav>
 
     <div class="grid four">
       <div class="kpi"><strong>10GB hotspot</strong><span class="muted">High-speed tethering bucket shown on your ONE Plan</span></div>
@@ -193,7 +211,7 @@
     <div class="grid two" style="margin-top:18px; margin-bottom:8px;">
       <section class="card">
         <h3>Fast read: what this means for your trip</h3>
-        <div class="callout"><strong>Best default behavior:</strong> text and app messaging first, data second, Wi‑Fi calling when it is stable, standard voice calls only when truly needed.</div>
+        <div class="callout"><strong>If you remember one thing:</strong> text and app messaging first, data second, Wi‑Fi calling when it is stable, standard voice calls only when truly needed.</div>
         <ul class="clean" style="margin-top:12px;">
           <li>Your phone can be used abroad without panic, but your <strong>hotspot</strong> is the easiest bucket to burn accidentally.</li>
           <li><strong>GPS itself does not equal roaming charges</strong>. Live map downloads, searches, traffic, sync, and tethering are the bigger issues.</li>
@@ -208,11 +226,11 @@
           <span>One good GaN charger</span>
           <span>Offline maps before move days</span>
         </div>
-        <p class="muted" style="margin-top:12px;">Because you will be moving between multiple locations, this page favors a lighter balanced system over the heaviest “maximum power” setup.</p>
+        <p class="muted" style="margin-top:12px;"><strong>Short answer:</strong> this page assumes the Balanced setup — 20K–24K main bank, 10K day bank, one 65W GaN charger, and a small SSD.</p>
       </section>
     </div>
 
-    <h2 class="section">Summit training block: what each item is and how to use it</h2>
+    <h2 id="gear-system" class="section">Summit training block: what each item is and how to use it</h2>
     <div class="grid three">
       <section class="card">
         <h3>Main power bank</h3>
@@ -294,7 +312,7 @@
             <text x="269" y="74" fill="#e8f1fb" font-size="15" text-anchor="middle">Adapter</text>
           </svg>
         </div>
-        <p class="muted">This is <strong>shape conversion</strong>, not power conversion. It lets your charger fit the wall. It does not magically make a bad charger safe. Your charger should already support <code class="inline">100–240V</code>.</p>
+        <p class="muted">This is <strong>shape conversion</strong>, not power conversion. It lets your charger fit the wall. It does not magically make a bad charger safe. Your charger should already support <code class="inline">100–240V</code>. For this Italy-only version, you are focused on the C/E/F family of Euro plugs — see the plug map diagram below for where Italy sits.</p>
         <ul class="clean">
           <li>Europe is not one single plug type.</li>
           <li>If UK is on the route, Type G support matters.</li>
@@ -350,7 +368,7 @@
       </section>
     </div>
 
-    <h2 class="section">SVG diagrams</h2>
+    <h2 id="diagrams" class="section">SVG diagrams</h2>
     <div class="grid two" style="margin-bottom:18px;">
       <section class="card">
         <h3>0) Travel system map</h3>
@@ -454,7 +472,7 @@
       </section>
     </div>
 
-    <h2 class="section">Summit training block: your ONE Plan abroad, data use, GPS, and how to avoid charges</h2>
+    <h2 id="connectivity" class="section">Summit training block: your ONE Plan abroad, data use, GPS, and how to avoid charges</h2>
     <div class="grid two">
       <section class="card">
         <h3>How your T-Mobile ONE details change the advice</h3>
@@ -486,7 +504,7 @@
     <div class="grid three" style="margin-top:18px;">
       <section class="card">
         <h3>ONE Plan hotspot reality</h3>
-        <p class="muted">Your screenshot shows <strong>10GB high-speed hotspot</strong>. That sounds generous until a Windows laptop starts behaving like a desktop internet connection.</p>
+        <p class="muted"><strong>If you remember one thing:</strong> 10GB of hotspot disappears fast on a Windows laptop.</p>
         <ul class="clean">
           <li>One laptop update or cloud sync spree can take a big bite out of 10GB.</li>
           <li>Use hotspot for booking, email, quick uploads, and emergency work — not for casual long sessions.</li>
@@ -495,7 +513,7 @@
       </section>
       <section class="card">
         <h3>GPS truth, made simple</h3>
-        <p class="muted">GPS is location. Data is internet. They overlap in map apps, which is why people confuse them.</p>
+        <p class="muted"><strong>GPS is location; data is internet.</strong> They overlap in map apps, which is why people confuse them.</p>
         <ul class="clean">
           <li><strong>GPS itself:</strong> can still locate you offline.</li>
           <li><strong>Data-heavy map behavior:</strong> place searches, live traffic, reroutes, reviews, downloading map tiles.</li>
@@ -504,6 +522,7 @@
       </section>
       <section class="card">
         <h3>How to avoid charges and wasted data</h3>
+        <p class="muted"><strong>If you are unsure:</strong> default to Wi‑Fi and offline maps, and treat hotspot as “for work only.”</p>
         <ul class="clean">
           <li>Use messaging apps or text instead of normal voice calls when practical.</li>
           <li>Turn off cellular backup for Photos, OneDrive, Google Drive, Dropbox, and similar apps.</li>
@@ -562,6 +581,7 @@
           <text x="616" y="170" fill="#9ab0c5" font-size="14" text-anchor="middle">10K pocket bank</text>
           <text x="616" y="194" fill="#9ab0c5" font-size="14" text-anchor="middle">65W charger</text>
         </svg>
+        <p class="muted small">Use this to choose between Light, Balanced, and Power User packs; this page is written with Balanced in mind.</p>
       </section>
       <section class="card">
         <h3>6) Daily routine diagram</h3>
@@ -584,6 +604,7 @@
           <path d="M344 150 H416" stroke="#ffd66b" stroke-width="6" stroke-linecap="round"/>
           <path d="M524 150 H596" stroke="#68d6a3" stroke-width="6" stroke-linecap="round"/>
         </svg>
+        <p class="muted small">Use this when planning each day: charge and back up at night, prep offline in the morning, lean on the day bank in transit, plug in as soon as you arrive.</p>
       </section>
     </div>
 
@@ -591,23 +612,23 @@
     <div class="grid four">
       <section class="card">
         <h3>Anker 737</h3>
-        <img class="diagram" src="Anker 737.jpg" alt="Anker 737 Power Bank (PowerCore 24K) main laptop power bank" />
+        <img class="diagram" src="Anker 737.jpg" loading="lazy" alt="Anker 737 Power Bank (PowerCore 24K) main laptop power bank" />
       </section>
       <section class="card">
         <h3>UGREEN 20K</h3>
-        <img class="diagram" src="UGREEN 20K.jpg" alt="UGREEN 100W 20,000mAh power bank as lighter main bank" />
+        <img class="diagram" src="UGREEN 20K.jpg" loading="lazy" alt="UGREEN 100W 20,000mAh power bank as lighter main bank" />
       </section>
       <section class="card">
         <h3>INIU 10K</h3>
-        <img class="diagram" src="INIU 10K.jpg" alt="INIU 10,000mAh 45W day and pocket power bank" />
+        <img class="diagram" src="INIU 10K.jpg" loading="lazy" alt="INIU 10,000mAh 45W day and pocket power bank" />
       </section>
       <section class="card">
         <h3>Travel charger</h3>
-        <img class="diagram" src="EPICKA Universal Travel Adapter.jpg" alt="EPICKA universal travel adapter used with the travel charger setup" />
+        <img class="diagram" src="EPICKA Universal Travel Adapter.jpg" loading="lazy" alt="EPICKA universal travel adapter used with the travel charger setup" />
       </section>
     </div>
 
-    <h2 class="section">Specific products to include</h2>
+    <h2 id="product-picks" class="section">Specific products to include</h2>
     <div class="grid two">
       <section class="card">
         <h3>Main battery and daily battery</h3>
@@ -621,7 +642,7 @@
               <span>2× USB-C + 1× USB-A</span>
               <span>Smart display</span>
             </div>
-            <p class="muted">Best for keeping a Windows laptop alive on flights, trains, and long café sessions. This is the least stressful main-bank choice if you plan to work for real.</p>
+            <p class="muted"><strong>Balanced main bank:</strong> best for keeping a Windows laptop alive on flights, trains, and long café sessions.</p>
             <p class="muted"><strong>Price note:</strong> check the Anker store or Amazon listing for current pricing; power bank prices move over time.</p>
             <div class="btns">
               <a class="btn" href="https://www.amazon.com/Anker-PowerCore-Portable-Charger-Compatible/dp/B09VPHVT2Z" target="_blank" rel="noopener">Amazon purchase</a>
@@ -655,7 +676,7 @@
               <span>Built-in USB-C cable</span>
               <span>Flight-safe</span>
             </div>
-            <p class="muted">This is the easy city-day bank. Better pocket size, enough output for fast phone charging, and lighter than carrying your main brick all day.</p>
+            <p class="muted"><strong>Balanced day bank:</strong> easy city-day pack, enough output for fast phone charging, and lighter than carrying your main brick all day.</p>
             <p><strong>Price location:</strong> Amazon listing / other retailers vary — check live listing</p>
             <div class="btns">
               <a class="btn" href="https://www.amazon.com/INIU-Portable-High-Speed-Flashlight-Compatible/dp/B0CB1FW5FC" target="_blank" rel="noopener">Amazon purchase</a>
@@ -774,8 +795,9 @@
       </section>
     </div>
 
-    <h2 class="section">Pack tiers</h2>
+    <h2 id="pack-tiers" class="section">Pack tiers</h2>
     <section class="card">
+      <p class="muted small"><strong>If you just want a default:</strong> choose Balanced — the rest of this page assumes that mix of gear and weight.</p>
       <table>
         <thead>
           <tr>
@@ -839,10 +861,11 @@
       </section>
     </div>
 
-    <h2 class="section">Recommended final stack</h2>
+    <h2 id="final-stack" class="section">Recommended final stack</h2>
     <div class="grid two">
       <section class="card">
         <h3>My strongest recommendation for your exact trip</h3>
+        <p class="muted"><strong>If you want the short answer:</strong> run the Balanced setup tuned for Italy — lighter main bank, 10K day bank, one 65W GaN travel charger with EU plugs, and a small SSD for backups.</p>
         <ul class="clean">
           <li><strong>Main bank:</strong> Anker 737</li>
           <li><strong>Day bank:</strong> INIU 10K 45W</li>
@@ -864,7 +887,32 @@
       </section>
     </div>
 
-    <p class="footer">AeroVista | Nexus | Summit travel page • clearer reading layout • ONE Plan specifics applied from your screenshot • product prices and listings can move, so live checks before purchase still matter.</p>
+    <h2 class="section">Checklists for move days and airports</h2>
+    <div class="grid two">
+      <section class="card">
+        <h3>Night-before move-day checklist</h3>
+        <ul class="clean">
+          <li>Charge laptop, phone, main bank, and day bank from wall power.</li>
+          <li>Download or refresh offline maps for the next city or region.</li>
+          <li>Run a quick backup to the Samsung T7 Shield (docs, reservations, key work).</li>
+          <li>Put charger, banks, cables, and SSD together in one easy-to-grab pouch.</li>
+          <li>Save or screenshot tickets and reservations to your phone.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h3>Airport security checklist</h3>
+        <ul class="clean">
+          <li>Keep all power banks and SSD in your carry-on, not checked luggage.</li>
+          <li>Use a single “tech tray” pouch you can pull out quickly.</li>
+          <li>Coil cables neatly so they do not tangle or snag during inspection.</li>
+          <li>Have boarding passes and IDs handy on phone and in wallet.</li>
+          <li>After security, plug in at the first good outlet to top up if needed.</li>
+        </ul>
+      </section>
+    </div>
+
+    <p class="footer">AeroVista | Nexus | Summit travel page • clearer reading layout • ONE Plan specifics applied from your screenshot • Italy-focused Balanced setup • product prices and listings can move, so live checks before purchase still matter.</p>
   </div>
+  </main>
 </body>
 </html>
