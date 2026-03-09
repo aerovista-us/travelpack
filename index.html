@@ -150,9 +150,50 @@
       margin: 12px 0 10px;
       font-size: .94rem;
       color: var(--muted);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
     }
-    .toc strong { display:block; margin-bottom: 4px; color: var(--gold2); }
-    .toc a { color: var(--cyan); margin-right: 10px; }
+    .toc strong { margin-right: 8px; color: var(--gold2); }
+    .toc a {
+      color: var(--cyan);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      font-size: .86rem;
+    }
+    .toc a:hover {
+      background: rgba(111,224,255,.08);
+      text-decoration: none;
+    }
+    .hero-actions {
+      margin-top: 18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    .hero-actions .btn-primary {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 16px;
+      border-radius:12px;
+      border:1px solid rgba(111,224,255,.4);
+      background: rgba(111,224,255,.16);
+      color: var(--text);
+      font-weight:600;
+      font-size:.92rem;
+    }
+    .hero-actions .btn-primary:hover {
+      background: rgba(111,224,255,.22);
+      text-decoration:none;
+    }
+    .hero-actions .muted {
+      font-size:.9rem;
+    }
     code.inline {
       padding: 2px 8px; border-radius: 9px; border:1px solid var(--line); background: rgba(255,255,255,.04); color:#d9ebff;
     }
@@ -178,7 +219,7 @@
       </div>
       <h1>Full travel pack: what to buy, how to use it, why it matters, and how to use it right</h1>
       <p class="lead">
-        This version now carries Summit directly in the branding and teaching style. It keeps the AeroVista + Nexus look, adds Summit gold/yellow accents, makes the T-Mobile guidance specific to your attached ONE Plan details, and restructures the page for faster reading with clearer diagrams, simpler decision rules, and more practical trip routines.
+        This page is tuned for an <strong>Italy-only working trip</strong> with Type C/E/F plugs, a Windows laptop, iPhone, and T‑Mobile ONE plan. It leans into the <strong>Balanced setup</strong> (20K–24K main bank + 10K day bank + 65W charger + SSD) and teaches how to use that gear without burning your hotspot or running out of power on move days.
       </p>
       <div class="chips">
         <span class="chip">Summit teaching mode active</span>
@@ -188,6 +229,10 @@
         <span class="chip">$0.25/min voice calls</span>
         <span class="chip">Wi‑Fi calling available</span>
         <span class="chip">Italy plugs (Type C/E/F)</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn-primary" href="europe-travel-companion.html" target="_blank" rel="noopener">Open European Travel Companion</a>
+        <span class="muted small">Simple offline trip dashboard for checklists, itinerary, and journal.</span>
       </div>
     </section>
 

@@ -62,3 +62,18 @@
   - Added two quick-reference checklists near the bottom: a **night-before move-day** checklist and an **airport security** checklist.
   - Expanded the “Recommended final stack” section with a one-line “short answer” summary that explicitly calls out the Balanced Italy setup.
 
+## Europe Travel Companion – SVG upgrades – March 2026
+
+- **HTML file**: `europe-travel-companion.html`
+
+- **New SVG components**
+  - **Trip phase ribbon (Overview tab)**: inline SVG under `Trip snapshot` that shows whether you are *before*, *during*, or *after* the trip. Driven by `tripStart`/`tripEnd` via `getTripPhase()` and updated in `renderOverview()` using `updateTripPhaseSvg(phase)`.
+  - **Daily routine diagram (Overview tab)**: four-step Night → Morning → Transit → Arrival SVG replacing the plain list in “Simple travel routine”, with the current step highlighted via `getRoutinePhaseNow()` and `updateRoutineSvg(phase)`.
+  - **Packing readiness gauge (Essentials tab)**: circular SVG gauge above the packing checklist that animates from 0–100% based on how many items are checked, updated in `renderPacking()` via `updatePackingGauge()`.
+  - **Smart tips accent (Tips tab)**: a small lightbulb SVG above the built-in tips list; clicking it scrolls to the first smart tip for quick access.
+
+- **Implementation notes**
+  - All SVGs use the shared `.svg-diagram` class and existing color tokens (`var(--cyan)`, `var(--gold2)`, `var(--amber)`, `var(--green)`, `var(--line)`) so they visually match cards and KPIs.
+  - Animations rely on CSS transitions triggered by data attributes (`data-phase`, `data-level`) instead of timers, and respect `prefers-reduced-motion` to stay comfortable for sensitive users.
+  - No changes were made to the saved `state` shape, so JSON export/import remains fully compatible with earlier versions of the companion file.
+

@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>European Travel Companion</title>
+  <meta name="theme-color" content="#04080d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Europe Companion" />
+  <link rel="manifest" href="europe-travel-companion.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <style>
     :root {
       --bg: #071018;
@@ -38,8 +44,7 @@
     a { color: var(--cyan); }
     .wrap { max-width: 1440px; margin: 0 auto; padding: 18px 16px 90px; }
     .hero {
-      position: sticky;
-      top: 0;
+      position: relative;
       z-index: 10;
       backdrop-filter: blur(14px);
       border: 1px solid var(--line);
@@ -149,6 +154,105 @@
       background: rgba(111,224,255,.08); border:1px solid rgba(111,224,255,.18); flex:0 0 auto;
     }
     .footer { margin-top: 28px; text-align:center; color: var(--muted); font-size:.94rem; }
+    .svg-diagram {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .icon-button {
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+    }
+    .icon-button:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 4px;
+    }
+    #tripPhaseSvg .phase-bar {
+      fill: rgba(255,255,255,.02);
+      stroke: var(--line);
+    }
+    #tripPhaseSvg .phase-segment {
+      fill: rgba(111,224,255,.10);
+    }
+    #tripPhaseSvg .phase-text {
+      fill: var(--muted);
+      font-size: 11px;
+    }
+    #tripPhaseSvg .marker {
+      transition: transform .6s ease;
+    }
+    #tripPhaseSvg[data-phase="before"] .marker { transform: translateX(0); }
+    #tripPhaseSvg[data-phase="during"] .marker { transform: translateX(100px); }
+    #tripPhaseSvg[data-phase="after"] .marker { transform: translateX(200px); }
+    #tripPhaseSvg[data-phase="unknown"] .marker { opacity:.4; }
+    #routineSvg .node-circle {
+      fill: rgba(255,255,255,.02);
+      stroke: var(--line);
+      transition: transform .4s ease, stroke .3s ease, fill .3s ease;
+    }
+    #routineSvg .node-label {
+      fill: var(--muted);
+      font-size: 11px;
+    }
+    #routineSvg .arrow {
+      stroke: var(--cyan);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-dasharray: 4 4;
+    }
+    #routineSvg[data-phase="night"] .node-night .node-circle,
+    #routineSvg[data-phase="morning"] .node-morning .node-circle,
+    #routineSvg[data-phase="transit"] .node-transit .node-circle,
+    #routineSvg[data-phase="arrival"] .node-arrival .node-circle {
+      stroke: var(--gold2);
+      fill: rgba(255,214,107,.12);
+      transform: scale(1.05);
+    }
+    #packingGaugeCircle {
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      transition: stroke-dashoffset .8s ease, stroke .3s ease;
+      stroke-linecap: round;
+    }
+    #packingGaugeBase {
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      stroke-linecap: round;
+    }
+    #packingGauge[data-level="low"] #packingGaugeCircle { stroke: var(--red); }
+    #packingGauge[data-level="mid"] #packingGaugeCircle { stroke: var(--amber); }
+    #packingGauge[data-level="high"] #packingGaugeCircle { stroke: var(--green); }
+    #tipsLightbulb .bulb {
+      fill: rgba(255,214,107,.25);
+      stroke: rgba(255,214,107,.6);
+    }
+    #tipsLightbulb .bulb-rays {
+      stroke: rgba(255,214,107,.7);
+      stroke-width: 2;
+      stroke-linecap: round;
+      opacity: .7;
+      transition: transform .4s ease, opacity .4s ease;
+    }
+    #tipsLightbulb:hover .bulb-rays,
+    #tipsLightbulb:focus-visible .bulb-rays {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #tripPhaseSvg .marker,
+      #routineSvg .node-circle,
+      #packingGaugeCircle,
+      #tipsLightbulb .bulb-rays {
+        transition: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -196,6 +300,19 @@
       <div class="card">
         <h2>Trip snapshot</h2>
         <div class="grid g3" id="snapshotGrid"></div>
+        <svg id="tripPhaseSvg" class="svg-diagram" viewBox="0 0 300 60" role="img" aria-label="Where you are in the trip: before, during, or after.">
+          <rect x="10" y="22" width="280" height="16" rx="8" class="phase-bar" />
+          <rect x="10" y="22" width="93" height="16" class="phase-segment" opacity=".18" />
+          <rect x="103" y="22" width="94" height="16" class="phase-segment" opacity=".24" />
+          <rect x="197" y="22" width="93" height="16" class="phase-segment" opacity=".18" />
+          <text x="56" y="18" class="phase-text" text-anchor="middle">Before</text>
+          <text x="150" y="18" class="phase-text" text-anchor="middle">During</text>
+          <text x="244" y="18" class="phase-text" text-anchor="middle">After</text>
+          <g class="marker">
+            <circle cx="56" cy="30" r="10" fill="rgba(111,224,255,.35)" stroke="rgba(111,224,255,.9)" stroke-width="2" />
+          </g>
+          <text id="tripPhaseLabel" x="150" y="50" class="phase-text" text-anchor="middle">Trip phase</text>
+        </svg>
         <div class="callout" id="tripMessage">Add the trip dates and first city in Setup to bring this to life.</div>
       </div>
       <div class="card">
@@ -216,12 +333,39 @@
       </div>
       <div class="card">
         <h2>Simple travel routine</h2>
-        <div class="list">
-          <div class="item"><strong>Night:</strong> charge phone, power bank, and check tomorrow's address.</div>
-          <div class="item"><strong>Morning:</strong> screenshot tickets, confirm route, carry one cable and one bank.</div>
-          <div class="item"><strong>Transit:</strong> use the small battery first, keep passport and phone easy to reach.</div>
-          <div class="item"><strong>Arrival:</strong> plug in immediately, verify tomorrow's plan, and save one journal note.</div>
-        </div>
+        <svg id="routineSvg" class="svg-diagram" viewBox="0 0 360 120" role="img" aria-label="Four-step daily travel routine: night, morning, transit, arrival.">
+          <defs>
+            <marker id="arrowHead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="var(--cyan)"></path>
+            </marker>
+          </defs>
+          <g class="arrow">
+            <line x1="60" y1="60" x2="120" y2="60" stroke="var(--cyan)" marker-end="url(#arrowHead)"></line>
+            <line x1="150" y1="60" x2="210" y2="60" stroke="var(--cyan)" marker-end="url(#arrowHead)"></line>
+            <line x1="240" y1="60" x2="300" y2="60" stroke="var(--cyan)" marker-end="url(#arrowHead)"></line>
+          </g>
+          <g class="node node-night">
+            <circle class="node-circle" cx="40" cy="60" r="22"></circle>
+            <path d="M32 52 A10 10 0 1 0 52 72 A12 12 0 1 1 32 52" fill="rgba(125,168,255,.9)"></path>
+            <text class="node-label" x="40" y="94" text-anchor="middle">Night</text>
+          </g>
+          <g class="node node-morning">
+            <circle class="node-circle" cx="140" cy="60" r="22"></circle>
+            <circle cx="140" cy="60" r="10" fill="rgba(242,188,98,.9)"></circle>
+            <text class="node-label" x="140" y="94" text-anchor="middle">Morning</text>
+          </g>
+          <g class="node node-transit">
+            <circle class="node-circle" cx="240" cy="60" r="22"></circle>
+            <rect x="232" y="52" width="16" height="16" rx="3" fill="rgba(111,224,255,.9)"></rect>
+            <text class="node-label" x="240" y="94" text-anchor="middle">Transit</text>
+          </g>
+          <g class="node node-arrival">
+            <circle class="node-circle" cx="340" cy="60" r="22"></circle>
+            <path d="M332 68 L332 60 L340 52 L348 60 L348 68 Z" fill="rgba(104,214,163,.9)"></path>
+            <text class="node-label" x="340" y="94" text-anchor="middle">Arrival</text>
+          </g>
+        </svg>
+        <p class="muted small">Follow this rhythm: charge and plan at night, prep tickets in the morning, keep documents close in transit, and plug in as soon as you arrive.</p>
       </div>
     </section>
 
@@ -262,6 +406,12 @@
       <div class="grid g2">
         <div class="card">
           <h2>Packing checklist</h2>
+          <svg id="packingGauge" class="svg-diagram" viewBox="0 0 120 80" role="img" aria-label="Packing readiness gauge showing how many items are packed.">
+            <circle id="packingGaugeBase" cx="60" cy="40" r="32" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="6"></circle>
+            <circle id="packingGaugeCircle" cx="60" cy="40" r="32" fill="none" stroke="var(--amber)" stroke-width="6" stroke-dasharray="201" stroke-dashoffset="201"></circle>
+            <text id="packingGaugeLabel" x="60" y="44" text-anchor="middle" fill="var(--gold2)" font-size="14">0% packed</text>
+            <text x="60" y="62" text-anchor="middle" class="muted small">Tap items below as you pack</text>
+          </svg>
           <div class="grid g2">
             <div><label class="mini">Item</label><input id="packName" placeholder="Passport"></div>
             <div><label class="mini">Category</label><input id="packCategory" placeholder="Documents, clothes, meds"></div>
@@ -334,6 +484,18 @@
         </div>
         <div class="card">
           <h2>Built-in smart suggestions</h2>
+          <button id="tipsSvgButton" class="icon-button" type="button" aria-label="Jump to built-in smart tips">
+            <svg id="tipsLightbulb" class="svg-diagram" viewBox="0 0 72 40" role="img" aria-label="Highlight for built-in smart suggestions.">
+              <g>
+                <circle cx="24" cy="20" r="10" class="bulb"></circle>
+                <rect x="20" y="26" width="8" height="6" fill="rgba(18,33,48,.9)" stroke="rgba(255,214,107,.6)" stroke-width="1.5"></rect>
+                <line class="bulb-rays" x1="24" y1="6" x2="24" y2="2"></line>
+                <line class="bulb-rays" x1="12" y1="12" x2="8" y2="10"></line>
+                <line class="bulb-rays" x1="36" y1="12" x2="40" y2="10"></line>
+              </g>
+              <text x="52" y="24" class="muted small" text-anchor="middle">Smart tips</text>
+            </svg>
+          </button>
           <div class="list" id="smartTips"></div>
         </div>
       </div>
@@ -444,6 +606,24 @@
       return Math.round((e - s) / 86400000) + 1;
     }
 
+    function getTripPhase(){
+      if (!state.profile.tripStart || !state.profile.tripEnd) return 'unknown';
+      const now = new Date();
+      const start = new Date(state.profile.tripStart + 'T12:00:00');
+      const end = new Date(state.profile.tripEnd + 'T12:00:00');
+      if (now < start) return 'before';
+      if (now > end) return 'after';
+      return 'during';
+    }
+
+    function getRoutinePhaseNow(){
+      const hour = new Date().getHours();
+      if (hour < 6 || hour >= 22) return 'night';
+      if (hour < 11) return 'morning';
+      if (hour < 18) return 'transit';
+      return 'arrival';
+    }
+
     function upcomingStops(){
       return [...state.itinerary].sort((a,b)=> `${a.date} ${a.time||''}`.localeCompare(`${b.date} ${b.time||''}`));
     }
@@ -521,6 +701,28 @@
       document.getElementById('docsCard').innerHTML = state.documents.length
         ? state.documents.slice(0,4).map(d=>`<div class="item"><strong>${d.name}</strong><div class="mini">${d.location}</div><div class="muted small">${d.note || ''}</div></div>`).join('')
         : `<div class="empty">No documents saved yet.</div>`;
+
+      updateTripPhaseSvg(getTripPhase());
+      updateRoutineSvg(getRoutinePhaseNow());
+    }
+
+    function updateTripPhaseSvg(phase){
+      const svg = document.getElementById('tripPhaseSvg');
+      if (!svg) return;
+      svg.setAttribute('data-phase', phase || 'unknown');
+      const label = document.getElementById('tripPhaseLabel');
+      if (label) {
+        if (phase === 'before') label.textContent = 'Before trip';
+        else if (phase === 'during') label.textContent = 'During trip';
+        else if (phase === 'after') label.textContent = 'After trip';
+        else label.textContent = 'Trip phase';
+      }
+    }
+
+    function updateRoutineSvg(phase){
+      const svg = document.getElementById('routineSvg');
+      if (!svg) return;
+      svg.setAttribute('data-phase', phase || 'night');
     }
 
     function renderItinerary(){
@@ -556,6 +758,24 @@
           </label>
           <div class="toolbar"><button onclick="removeItem('packing','${item.id}')">Delete</button></div>
         </div>`).join('') : `<div class="empty">No packing items yet.</div>`;
+      updatePackingGauge();
+    }
+
+    function updatePackingGauge(){
+      const svg = document.getElementById('packingGauge');
+      const circle = document.getElementById('packingGaugeCircle');
+      const label = document.getElementById('packingGaugeLabel');
+      if (!svg || !circle || !label) return;
+      const total = state.packing.length || 0;
+      const packed = state.packing.filter(x => x.packed).length;
+      const percent = total ? packed / total : 0;
+      const radius = 32;
+      const circumference = 2 * Math.PI * radius;
+      circle.style.strokeDasharray = `${circumference}`;
+      circle.style.strokeDashoffset = `${circumference * (1 - percent)}`;
+      label.textContent = total ? `${Math.round(percent * 100)}% packed` : 'No items yet';
+      const level = percent === 0 ? 'low' : percent < 0.34 ? 'low' : percent < 0.67 ? 'mid' : 'high';
+      svg.setAttribute('data-level', level);
     }
 
     function renderDocuments(){
@@ -791,10 +1011,24 @@
     document.getElementById('resetBtn').addEventListener('click', resetData);
     document.getElementById('seedBtn').addEventListener('click', loadSeed);
 
+    const tipsSvgButton = document.getElementById('tipsSvgButton');
+    if (tipsSvgButton) {
+      tipsSvgButton.addEventListener('click', () => {
+        const firstTip = document.querySelector('#smartTips .item');
+        if (firstTip) firstTip.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
     if (!state.journal.length) document.getElementById('journalDate').value = new Date().toISOString().slice(0,10);
     document.getElementById('memoryDate').value = new Date().toISOString().slice(0,10);
     document.getElementById('journalDate').value = new Date().toISOString().slice(0,10);
     renderAll();
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./europe-travel-companion-sw.js').catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>
