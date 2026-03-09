@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AeroVista | Nexus Travel Pack Guide</title>
+  <style>
+    :root {
+      --bg: #0a0f14;
+      --panel: #101821;
+      --panel-2: #13202c;
+      --text: #e7eef7;
+      --muted: #9db0c3;
+      --line: rgba(120, 170, 220, 0.18);
+      --cyan: #67d8ff;
+      --blue: #78a6ff;
+      --amber: #f6b95b;
+      --green: #69d8a3;
+      --danger: #ff7b7b;
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: radial-gradient(circle at top, #12202d 0%, var(--bg) 45%, #05080c 100%); color: var(--text); font-family: Inter, Segoe UI, Arial, sans-serif; }
+    body { line-height: 1.55; }
+    .wrap { max-width: 1220px; margin: 0 auto; padding: 32px 20px 80px; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(103,216,255,.08), rgba(120,166,255,.04));
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+      padding: 34px;
+      margin-bottom: 24px;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(103,216,255,.18), rgba(103,216,255,0));
+      filter: blur(10px);
+    }
+
+    .brand-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .logo {
+      width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center;
+      background: linear-gradient(135deg, rgba(103,216,255,.22), rgba(120,166,255,.12));
+      border: 1px solid rgba(103,216,255,.25);
+      font-weight: 800; letter-spacing: .08em; color: var(--cyan);
+    }
+    .eyebrow { color: var(--cyan); text-transform: uppercase; letter-spacing: .2em; font-size: 12px; }
+    h1 { margin: 0 0 10px; font-size: clamp(2rem, 4vw, 3.6rem); line-height: 1.04; }
+    .lead { max-width: 840px; color: var(--muted); font-size: 1.05rem; }
+
+    .grid { display: grid; gap: 20px; }
+    .grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    @media (max-width: 960px) { .grid.two, .grid.three { grid-template-columns: 1fr; } }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .card h2, .card h3 { margin-top: 0; }
+    .section-title {
+      margin: 28px 0 14px;
+      font-size: 1.35rem;
+      color: var(--text);
+    }
+    .muted { color: var(--muted); }
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(103,216,255,.22);
+      background: rgba(103,216,255,.08);
+      color: var(--cyan);
+      margin: 0 8px 8px 0;
+    }
+    .kpis { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+    .kpi {
+      min-width: 160px;
+      flex: 1 1 180px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,.02);
+    }
+    .kpi strong { display: block; font-size: 1.35rem; color: var(--cyan); }
+    ul.clean { margin: 10px 0 0; padding-left: 18px; }
+    li { margin: 6px 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+    }
+    th, td {
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th { color: var(--cyan); background: rgba(103,216,255,.06); }
+    tr:last-child td { border-bottom: none; }
+
+    .option {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      background: linear-gradient(180deg, rgba(103,216,255,.05), rgba(255,255,255,.015));
+      margin-top: 12px;
+    }
+    .option-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .pill { font-size: 11px; border-radius: 999px; padding: 5px 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .pill.best { background: rgba(105,216,163,.14); color: var(--green); border: 1px solid rgba(105,216,163,.22); }
+    .pill.alt { background: rgba(246,185,91,.14); color: var(--amber); border: 1px solid rgba(246,185,91,.22); }
+    .pill.warn { background: rgba(255,123,123,.14); color: var(--danger); border: 1px solid rgba(255,123,123,.22); }
+
+    .footer {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: .95rem;
+      text-align: center;
+    }
+    .small { font-size: .92rem; }
+    code.inline {
+      background: rgba(255,255,255,.06);
+      padding: 2px 7px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      color: #d6ebff;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="brand-row">
+        <div class="logo">AV</div>
+        <div>
+          <div class="eyebrow">AeroVista | Nexus Field Guide</div>
+          <div class="muted small">Europe Travel Pack • 1-Month Working Trip • Windows Laptop + iPhone + T-Mobile</div>
+        </div>
+      </div>
+      <h1>Full Travel Pack: where, how, and why</h1>
+      <p class="lead">
+        This page is built as a decision-ready travel kit guide for a month in Europe. It focuses on the real-world stack you need: airline-safe battery capacity, correct plug support for Europe, laptop-capable charging, iPhone support, backup connectivity, hotel-room practicality, and lower-stress alternatives if you want lighter or cheaper options.
+      </p>
+      <div>
+        <span class="tag">Carry-on lithium only</span>
+        <span class="tag">Under 100Wh target</span>
+        <span class="tag">EU + UK plug coverage</span>
+        <span class="tag">Laptop-capable USB-C PD</span>
+        <span class="tag">T-Mobile fallback planning</span>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><strong>100Wh max</strong><span class="muted">Best no-approval airline zone for power banks</span></div>
+        <div class="kpi"><strong>~27,000mAh</strong><span class="muted">Approximate 100Wh ceiling at 3.7V nominal</span></div>
+        <div class="kpi"><strong>230V / 50Hz</strong><span class="muted">Most of Europe and UK mains standard</span></div>
+        <div class="kpi"><strong>Type C / E / F / G</strong><span class="muted">Main plug families to cover for Europe trips</span></div>
+      </div>
+    </section>
+
+    <div class="grid two">
+      <section class="card">
+        <h2>Where this matters</h2>
+        <ul class="clean">
+          <li><strong>Airports and airlines:</strong> power banks must go in your carry-on, not checked luggage.</li>
+          <li><strong>Continental Europe:</strong> most destinations use Type C, E, or F plug formats.</li>
+          <li><strong>United Kingdom / Ireland:</strong> Type G plug format is different, so a true travel adapter matters.</li>
+          <li><strong>Hotels and trains:</strong> outlet access can be awkward or limited, so cable length and multi-port charging matter more than people think.</li>
+          <li><strong>Street travel days:</strong> a smaller day-pack battery is often nicer than carrying one heavy brick all day.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>How to think about the setup</h2>
+        <ul class="clean">
+          <li><strong>Main bank:</strong> big enough to help your Windows laptop.</li>
+          <li><strong>Pocket bank:</strong> small enough for city days, trains, and backup.</li>
+          <li><strong>Wall charger:</strong> one compact GaN charger replaces multiple bricks.</li>
+          <li><strong>Adapter coverage:</strong> EU + UK matters more than just “Europe plug.”</li>
+          <li><strong>Data strategy:</strong> your T-Mobile plan is a base layer, not the whole plan.</li>
+          <li><strong>Offline resilience:</strong> maps, tickets, backups, and files should still work without signal.</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">Recommended primary pack</h2>
+    <div class="grid three">
+      <section class="card">
+        <h3>Main power bank</h3>
+        <div class="option">
+          <div class="option-title">
+            <strong>Anker 737 Power Bank</strong>
+            <span class="pill best">Top Pick</span>
+          </div>
+          <p class="muted">24,000mAh class, laptop-capable, under the 100Wh airline ceiling, and strong for long travel days.</p>
+          <ul class="clean">
+            <li>Best when your Windows laptop actually needs meaningful top-ups.</li>
+            <li>Useful for flights, trains, and remote work stretches.</li>
+            <li>Still carry-on friendly.</li>
+          </ul>
+        </div>
+        <div class="option">
+          <div class="option-title">
+            <strong>UGREEN 20,000mAh 100W</strong>
+            <span class="pill alt">Alt</span>
+          </div>
+          <p class="muted">A strong value option with enough output for many laptops and a little less bulk.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Pocket / day-use bank</h3>
+        <div class="option">
+          <div class="option-title">
+            <strong>INIU 10,000mAh 45W</strong>
+            <span class="pill best">Best Light Carry</span>
+          </div>
+          <p class="muted">Small enough to actually carry daily and powerful enough for fast iPhone charging.</p>
+        </div>
+        <div class="option">
+          <div class="option-title">
+            <strong>Anker 10K class power bank</strong>
+            <span class="pill alt">Alt</span>
+          </div>
+          <p class="muted">Simple, dependable, easy to replace, and lower cost.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Wall charging + plug coverage</h3>
+        <div class="option">
+          <div class="option-title">
+            <strong>UGREEN 65W GaN travel charger</strong>
+            <span class="pill best">Best Balance</span>
+          </div>
+          <p class="muted">One compact charger for laptop + iPhone, with EU and UK plug support depending on kit version.</p>
+        </div>
+        <div class="option">
+          <div class="option-title">
+            <strong>Universal adapter + your own GaN USB-C charger</strong>
+            <span class="pill alt">Modular Alt</span>
+          </div>
+          <p class="muted">Best when you already own a good laptop charger and just need correct plug conversion.</p>
+        </div>
+      </section>
+    </div>
+
+    <h2 class="section-title">Full pack list</h2>
+    <section class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Recommended</th>
+            <th>Why</th>
+            <th>Alt Option</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Main battery</td>
+            <td>Anker 737 / UGREEN 20K 100W</td>
+            <td>Supports laptop charging, long transit days, and better resilience</td>
+            <td>Any reputable 20K USB-C PD bank under 100Wh</td>
+          </tr>
+          <tr>
+            <td>Daily battery</td>
+            <td>INIU 10K 45W</td>
+            <td>Better for city carry, less weight, fast phone charging</td>
+            <td>Anker 10K class unit</td>
+          </tr>
+          <tr>
+            <td>Wall charger</td>
+            <td>65W GaN multi-port travel charger</td>
+            <td>Charges laptop + phone from one outlet</td>
+            <td>Separate 45W+ USB-C charger plus plug adapter</td>
+          </tr>
+          <tr>
+            <td>Plug support</td>
+            <td>EU + UK travel adapter coverage</td>
+            <td>Europe is not one plug standard</td>
+            <td>Country-specific adapters if itinerary is narrow</td>
+          </tr>
+          <tr>
+            <td>Cables</td>
+            <td>2x USB-C to USB-C, 1x USB-C to Lightning</td>
+            <td>Covers laptop, power bank, and iPhone cleanly</td>
+            <td>Add a short backup cable for planes</td>
+          </tr>
+          <tr>
+            <td>Storage</td>
+            <td>Samsung T7 1TB SSD</td>
+            <td>Fast backups for work files, photos, exports</td>
+            <td>Any reputable compact USB-C SSD</td>
+          </tr>
+          <tr>
+            <td>Connectivity</td>
+            <td>T-Mobile as base + backup eSIM</td>
+            <td>Prevents slow-data frustration or dead-zone issues</td>
+            <td>Local physical SIM</td>
+          </tr>
+          <tr>
+            <td>Security</td>
+            <td>VPN + password manager</td>
+            <td>Protects hotel, airport, and café sessions</td>
+            <td>At minimum, use strong MFA and avoid open Wi-Fi logins</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <h2 class="section-title">Why this setup works for your exact trip</h2>
+    <div class="grid two">
+      <section class="card">
+        <h3>Windows laptop needs more than phone-travel gear</h3>
+        <p class="muted">A phone-only setup usually falls apart once the laptop enters the picture. A true month-long kit needs enough USB-C power delivery to keep the laptop useful during flights, layovers, train days, and hotel desk sessions.</p>
+        <ul class="clean">
+          <li>Look for <strong>45W minimum</strong> if the laptop is light-duty.</li>
+          <li><strong>65W to 100W</strong> is the more comfortable zone for many Windows laptops.</li>
+          <li>A 10K bank alone is nice, but not enough as the only battery if you are working.</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h3>iPhone + T-Mobile is good, but not invincible</h3>
+        <p class="muted">T-Mobile international roaming is convenient, but speed can be limited depending on plan terms and country behavior. A backup eSIM gives you a clean escape hatch when you actually need solid speed for maps, uploads, tethering, or work calls.</p>
+        <ul class="clean">
+          <li>Keep T-Mobile as your default base line.</li>
+          <li>Add a backup eSIM only if you hit speed pain or coverage friction.</li>
+          <li>Download offline maps, boarding passes, and train tickets before each move day.</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">Alternative packs</h2>
+    <div class="grid three">
+      <section class="card">
+        <h3>Light Pack</h3>
+        <p class="muted">For low work load, more walking, and lighter luggage.</p>
+        <ul class="clean">
+          <li>10K power bank only</li>
+          <li>45W or 65W GaN charger</li>
+          <li>1 travel adapter</li>
+          <li>2 cables total</li>
+        </ul>
+        <p class="small muted">Best when the laptop is used only occasionally and hotel charging is easy.</p>
+      </section>
+      <section class="card">
+        <h3>Balanced Pack</h3>
+        <p class="muted">The best one for most month-long mixed work + travel trips.</p>
+        <ul class="clean">
+          <li>20K to 24K main power bank</li>
+          <li>10K pocket bank</li>
+          <li>65W GaN travel charger</li>
+          <li>EU + UK adapter coverage</li>
+          <li>SSD backup</li>
+        </ul>
+        <p class="small muted">Best mix of convenience, resilience, and weight.</p>
+      </section>
+      <section class="card">
+        <h3>Power User Pack</h3>
+        <p class="muted">For frequent laptop use, tethering, content creation, and long move days.</p>
+        <ul class="clean">
+          <li>24K main power bank</li>
+          <li>10K secondary bank</li>
+          <li>100W-capable cables</li>
+          <li>65W+ GaN charger</li>
+          <li>Backup eSIM + SSD + VPN</li>
+        </ul>
+        <p class="small muted">This is the least stressful option if the trip mixes travel and real work.</p>
+      </section>
+    </div>
+
+    <h2 class="section-title">Packing notes</h2>
+    <div class="grid two">
+      <section class="card">
+        <h3>Keep these in your carry-on</h3>
+        <ul class="clean">
+          <li>All power banks and spare lithium battery devices</li>
+          <li>Phone, laptop, SSD, and core charging kit</li>
+          <li>Any critical medication, documents, and offline copies of bookings</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h3>Useful small extras</h3>
+        <ul class="clean">
+          <li>Compact outlet splitter or mini extension if room outlets are awkward</li>
+          <li>Velcro cable ties</li>
+          <li>Tiny zip pouch for adapters and SIM tool</li>
+          <li>Bluetooth tracker in luggage or tech pouch</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:20px;">
+      <h2>Quick buy logic</h2>
+      <p class="muted">If you want the no-drama answer, buy this combination:</p>
+      <ul class="clean">
+        <li><strong>Main bank:</strong> 20K–24K USB-C PD power bank under 100Wh</li>
+        <li><strong>Day bank:</strong> 10K fast-charge bank</li>
+        <li><strong>Wall charger:</strong> 65W GaN travel charger with EU + UK support</li>
+        <li><strong>Cables:</strong> two 100W USB-C cables + one USB-C to Lightning</li>
+        <li><strong>Backup layer:</strong> SSD + eSIM option + offline maps</li>
+      </ul>
+      <p class="muted">That gives you enough muscle for a real month abroad without drifting into bulky, airline-questionable, or overcomplicated gear.</p>
+    </section>
+
+    <p class="footer">AeroVista | Nexus branded field sheet • Built for practical travel decisions, not brochure fluff.</p>
+  </div>
+</body>
+</html>
