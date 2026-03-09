@@ -159,6 +159,18 @@
       height: auto;
       display: block;
     }
+    .tools-frame {
+      width: 100%;
+      min-height: 520px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.2);
+    }
+    @media (max-width: 780px){
+      .tools-frame {
+        min-height: 460px;
+      }
+    }
     .icon-button {
       border: none;
       background: transparent;
@@ -293,6 +305,7 @@
         <button data-tab="tips">Tips</button>
         <button data-tab="memories">Mementos</button>
         <button data-tab="settings">Setup</button>
+        <button data-tab="tools">Tools</button>
       </div>
     </section>
 
@@ -551,12 +564,28 @@
       </div>
     </section>
 
+    <section id="tab-tools" class="tab hidden">
+      <div class="grid g2">
+        <div class="card">
+          <h2>Travel tools module</h2>
+          <p class="muted">Open calculators for currency, budget, measurements, time zones, packing weight, and quick notes without leaving this companion.</p>
+          <p class="muted small">If the embedded view feels tight on a phone, you can also open the tools in a full tab using the link below.</p>
+          <div class="btns" style="margin-top:10px;">
+            <a class="btn" href="europe-tools-modules.html" target="_blank" rel="noopener">Open full tools page</a>
+          </div>
+        </div>
+        <div class="card">
+          <iframe class="tools-frame" src="europe-tools-modules.html" title="Europe travel tools"></iframe>
+        </div>
+      </div>
+    </section>
+
     <p class="footer">Built as a single-file offline travel companion. Save it, duplicate it per trip, and export data often.</p>
   </div>
 
   <script>
     const STORAGE_KEY = 'euTravelCompanion_v1';
-    const tabs = ['overview','itinerary','essentials','journal','tips','memories','settings'];
+    const tabs = ['overview','itinerary','essentials','journal','tips','memories','settings','tools'];
     const defaultState = {
       profile: {
         travelerName: '', tripName: '', tripStart: '', tripEnd: '', homeContact: '', tripRegion: '', tripGoal: ''

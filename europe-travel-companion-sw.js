@@ -1,7 +1,8 @@
 const CACHE_NAME = 'eu-travel-companion-v1';
 const OFFLINE_URLS = [
   './europe-travel-companion.html',
-  './europe-travel-companion.webmanifest'
+  './europe-travel-companion.webmanifest',
+  './europe-tools-modules.html'
 ];
 
 self.addEventListener('install', (event) => {

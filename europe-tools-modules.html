@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Europe Travel Companion • Tools</title>
+  <style>
+    :root{
+      --bg:#09111d;
+      --panel:#111d2d;
+      --panel2:#0d1725;
+      --line:rgba(154,176,197,.18);
+      --text:#eef6ff;
+      --muted:#98adc4;
+      --cyan:#6fe0ff;
+      --blue:#7da8ff;
+      --gold:#ffd66b;
+      --gold2:#f0bf43;
+      --green:#68d6a3;
+      --danger:#ff8f8f;
+      --shadow:0 18px 44px rgba(0,0,0,.28);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      background:radial-gradient(circle at top right, rgba(111,224,255,.08), transparent 24%), linear-gradient(180deg, #08101a 0%, #0a1421 100%);
+      color:var(--text);
+    }
+    .wrap{max-width:1380px;margin:0 auto;padding:24px}
+    .hero,.card{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(10px);
+    }
+    .hero{padding:26px 26px 22px;margin-bottom:20px;overflow:hidden;position:relative}
+    .hero:before{
+      content:"";position:absolute;inset:auto -60px -60px auto;width:240px;height:240px;border-radius:50%;
+      background:radial-gradient(circle, rgba(255,214,107,.08), transparent 65%);
+    }
+    .brand{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+    .logo{
+      width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-weight:800;
+      background:linear-gradient(135deg, rgba(111,224,255,.18), rgba(255,214,107,.15));
+      border:1px solid rgba(111,224,255,.3); color:var(--text); letter-spacing:.08em;
+    }
+    .eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;color:var(--gold)}
+    .small{font-size:.92rem;color:var(--muted)}
+    h1,h2,h3{margin:0 0 10px}
+    h1{font-size:clamp(1.85rem, 3vw, 3rem);line-height:1.06;max-width:960px}
+    h2{font-size:1.28rem;color:#fff}
+    h3{font-size:1.02rem;color:#fff}
+    p{margin:0 0 10px;line-height:1.5}
+    .lead{font-size:1.06rem;color:#d7e9fb;max-width:940px}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+    .chip{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:#dcecff;font-size:.9rem}
+    .grid{display:grid;gap:16px}
+    .grid.tools{grid-template-columns:repeat(12,minmax(0,1fr));}
+    .span-12{grid-column:span 12}
+    .span-8{grid-column:span 8}
+    .span-6{grid-column:span 6}
+    .span-4{grid-column:span 4}
+    .span-3{grid-column:span 3}
+    .card{padding:18px}
+    label{display:block;font-size:.86rem;color:#d7e3ef;margin-bottom:7px;font-weight:600}
+    input,select,textarea,button{
+      font:inherit;
+    }
+    input,select,textarea{
+      width:100%;padding:12px 13px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(255,255,255,.04);color:var(--text);outline:none;
+    }
+    textarea{min-height:120px;resize:vertical}
+    input::placeholder, textarea::placeholder{color:#7e93a8}
+    .row{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
+    .c4{grid-column:span 4}.c3{grid-column:span 3}.c6{grid-column:span 6}.c8{grid-column:span 8}.c12{grid-column:span 12}
+    .result{
+      margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid rgba(111,224,255,.2);
+      background:rgba(111,224,255,.07);font-weight:700;color:#effbff
+    }
+    .muted{color:var(--muted)}
+    .subtle{font-size:.88rem;color:var(--muted)}
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    button,.btn{
+      padding:11px 14px;border-radius:14px;border:1px solid rgba(111,224,255,.28);background:rgba(111,224,255,.1);
+      color:var(--text);font-weight:700;cursor:pointer;text-decoration:none;
+    }
+    button.alt,.btn.alt{border-color:rgba(255,214,107,.26);background:rgba(255,214,107,.1)}
+    button.ghost{background:rgba(255,255,255,.04);border-color:var(--line)}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;background:rgba(104,214,163,.09);border:1px solid rgba(104,214,163,.25);font-size:.84rem;color:#dffdEE;margin-bottom:10px}
+    .diagram{width:100%;height:auto;display:block;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.02);margin-bottom:12px}
+    .stack{display:grid;gap:10px}
+    .list{display:grid;gap:10px;margin-top:10px}
+    .item{padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03)}
+    .journal-list .item{white-space:pre-wrap}
+    .two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+    .footer{padding:20px 0 8px;color:var(--muted);text-align:center;font-size:.92rem}
+    table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+    th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    th{background:rgba(255,214,107,.08);color:#fff}
+    tr:last-child td{border-bottom:none}
+    .ok{color:#cffff0}.warn{color:#ffe4a2}.bad{color:#ffb2b2}
+    .codebox{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(4,8,13,.96);
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:.82rem;
+      white-space:pre;
+      overflow-x:auto;
+      color:#e8f1fb;
+    }
+    @media (max-width:1100px){
+      .span-8,.span-6,.span-4,.span-3{grid-column:span 12}
+      .two-col{grid-template-columns:1fr}
+    }
+    @media (max-width:760px){
+      .wrap{padding:14px}
+      .row,.grid.tools{grid-template-columns:1fr}
+      .c4,.c3,.c6,.c8,.c12,.span-12,.span-8,.span-6,.span-4,.span-3{grid-column:span 1}
+      button,.btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="brand">
+        <div class="logo">EU</div>
+        <div>
+          <div class="eyebrow">AeroVista • Nexus • Summit • Travel Tools</div>
+          <div class="small">Offline-ready helper page for a one-month Europe trip</div>
+        </div>
+      </div>
+      <h1>Travel tools page — simple, practical, and usable even when the internet is weak</h1>
+      <p class="lead">This page is built as a separate tools module for the travel companion app. It keeps the interface dead simple, stores data in the browser, and focuses on the most useful utilities for a solo traveler: money, measurements, time, budget, phrase help, quick notes, and trip memory capture.</p>
+      <div class="chips">
+        <span class="chip">Works offline after load</span>
+        <span class="chip">Browser storage</span>
+        <span class="chip">Large simple controls</span>
+        <span class="chip">No account required</span>
+      </div>
+    </section>
+
+    <div class="grid tools">
+      <section class="card span-8">
+        <div class="pill">Currency + Budget</div>
+        <h2>Currency converter</h2>
+        <p class="subtle">Rates can be manually adjusted before the trip so the page remains helpful offline. Base rates below are editable and saved on this device.</p>
+        <div class="row">
+          <div class="c3">
+            <label for="amount">Amount</label>
+            <input id="amount" type="number" step="0.01" value="100" />
+          </div>
+          <div class="c3">
+            <label for="fromCurrency">From</label>
+            <select id="fromCurrency"></select>
+          </div>
+          <div class="c3">
+            <label for="toCurrency">To</label>
+            <select id="toCurrency"></select>
+          </div>
+          <div class="c3">
+            <label>&nbsp;</label>
+            <button onclick="convertCurrency()">Convert</button>
+          </div>
+        </div>
+        <div id="currencyResult" class="result">100 USD = 92.00 EUR</div>
+        <div class="row" style="margin-top:14px;">
+          <div class="c4"><label for="rateEUR">EUR per USD</label><input id="rateEUR" type="number" step="0.0001" /></div>
+          <div class="c4"><label for="rateGBP">GBP per USD</label><input id="rateGBP" type="number" step="0.0001" /></div>
+          <div class="c4"><label for="rateCHF">CHF per USD</label><input id="rateCHF" type="number" step="0.0001" /></div>
+          <div class="c4"><label for="rateCZK">CZK per USD</label><input id="rateCZK" type="number" step="0.0001" /></div>
+          <div class="c4"><label for="rateHUF">HUF per USD</label><input id="rateHUF" type="number" step="0.0001" /></div>
+          <div class="c4"><label for="ratePLN">PLN per USD</label><input id="ratePLN" type="number" step="0.0001" /></div>
+        </div>
+        <div class="btns">
+          <button class="alt" onclick="saveRates()">Save offline rates</button>
+          <button class="ghost" onclick="resetRates()">Reset default rates</button>
+        </div>
+      </section>
+
+      <section class="card span-4">
+        <div class="pill">Daily Planning</div>
+        <h2>Daily budget planner</h2>
+        <div class="stack">
+          <div>
+            <label for="tripDays">Trip days</label>
+            <input id="tripDays" type="number" value="30" />
+          </div>
+          <div>
+            <label for="tripBudget">Total budget</label>
+            <input id="tripBudget" type="number" value="4500" />
+          </div>
+          <div>
+            <label for="currencyBudget">Budget currency</label>
+            <select id="currencyBudget"></select>
+          </div>
+        </div>
+        <div id="budgetResult" class="result">About 150.00 per day</div>
+        <div class="btns">
+          <button onclick="calcBudget()">Recalculate</button>
+        </div>
+      </section>
+
+      <section class="card span-6">
+        <div class="pill">Measurements</div>
+        <h2>Metric ↔ US converter</h2>
+        <svg class="diagram" viewBox="0 0 760 180" xmlns="http://www.w3.org/2000/svg" aria-label="Measurement conversion diagram">
+          <rect x="0" y="0" width="760" height="180" rx="20" fill="rgba(255,255,255,.02)"/>
+          <rect x="34" y="42" width="180" height="96" rx="16" fill="rgba(111,224,255,.08)" stroke="rgba(111,224,255,.24)"/>
+          <text x="124" y="78" fill="#eef6ff" font-size="24" text-anchor="middle">Metric</text>
+          <text x="124" y="106" fill="#9ab0c5" font-size="14" text-anchor="middle">km • kg • °C • liters</text>
+          <path d="M236 90 H370" stroke="#ffd66b" stroke-width="8" stroke-linecap="round"/>
+          <polygon points="370,90 344,75 344,105" fill="#ffd66b"/>
+          <path d="M524 90 H390" stroke="#6fe0ff" stroke-width="8" stroke-linecap="round"/>
+          <polygon points="390,90 416,75 416,105" fill="#6fe0ff"/>
+          <rect x="546" y="42" width="180" height="96" rx="16" fill="rgba(255,214,107,.08)" stroke="rgba(255,214,107,.24)"/>
+          <text x="636" y="78" fill="#eef6ff" font-size="24" text-anchor="middle">US</text>
+          <text x="636" y="106" fill="#9ab0c5" font-size="14" text-anchor="middle">miles • lb • °F • gallons</text>
+        </svg>
+        <div class="row">
+          <div class="c4">
+            <label for="convertType">Type</label>
+            <select id="convertType">
+              <option value="km-mi">Kilometers → Miles</option>
+              <option value="mi-km">Miles → Kilometers</option>
+              <option value="kg-lb">Kilograms → Pounds</option>
+              <option value="lb-kg">Pounds → Kilograms</option>
+              <option value="c-f">Celsius → Fahrenheit</option>
+              <option value="f-c">Fahrenheit → Celsius</option>
+              <option value="l-gal">Liters → Gallons</option>
+              <option value="gal-l">Gallons → Liters</option>
+              <option value="cm-in">Centimeters → Inches</option>
+              <option value="in-cm">Inches → Centimeters</option>
+            </select>
+          </div>
+          <div class="c4">
+            <label for="convertValue">Value</label>
+            <input id="convertValue" type="number" step="0.01" value="10" />
+          </div>
+          <div class="c4">
+            <label>&nbsp;</label>
+            <button onclick="runConvert()">Convert</button>
+          </div>
+        </div>
+        <div id="convertResult" class="result">10 kilometers = 6.21 miles</div>
+      </section>
+
+      <section class="card span-6">
+        <div class="pill">Time</div>
+        <h2>World clock and trip time helper</h2>
+        <p class="subtle">Helpful for checking home time versus Europe without needing service.</p>
+        <table>
+          <thead>
+            <tr><th>City</th><th>Local time</th><th>Note</th></tr>
+          </thead>
+          <tbody id="clockTable"></tbody>
+        </table>
+        <div class="btns">
+          <button onclick="renderClocks()">Refresh times</button>
+        </div>
+      </section>
+
+      <section class="card span-4">
+        <div class="pill">Packing</div>
+        <h2>Bag weight helper</h2>
+        <div class="stack">
+          <div>
+            <label for="bagKg">Bag weight in kg</label>
+            <input id="bagKg" type="number" step="0.1" value="8" />
+          </div>
+          <div>
+            <label for="bagLimitKg">Limit in kg</label>
+            <input id="bagLimitKg" type="number" step="0.1" value="10" />
+          </div>
+        </div>
+        <div id="bagResult" class="result">8.0 kg = 17.6 lb • 2.0 kg under limit</div>
+        <div class="btns"><button onclick="calcBag()">Check bag</button></div>
+      </section>
+
+      <section class="card span-4">
+        <div class="pill">Water + Medicine</div>
+        <h2>Simple dose / liquid helper</h2>
+        <div class="stack">
+          <div>
+            <label for="mlValue">Milliliters</label>
+            <input id="mlValue" type="number" step="1" value="100" />
+          </div>
+          <div>
+            <label for="ozValue">Fluid ounces</label>
+            <input id="ozValue" type="number" step="0.1" value="3.4" />
+          </div>
+        </div>
+        <div id="liquidResult" class="result">100 mL = 3.38 fl oz • 3.4 fl oz = 100.6 mL</div>
+        <div class="btns"><button onclick="calcLiquids()">Update</button></div>
+      </section>
+
+      <section class="card span-4">
+        <div class="pill">Tipping / Split</div>
+        <h2>Bill helper</h2>
+        <div class="stack">
+          <div>
+            <label for="billAmount">Bill amount</label>
+            <input id="billAmount" type="number" step="0.01" value="48" />
+          </div>
+          <div>
+            <label for="tipPct">Tip percent</label>
+            <input id="tipPct" type="number" step="1" value="10" />
+          </div>
+          <div>
+            <label for="splitCount">Split by</label>
+            <input id="splitCount" type="number" step="1" value="2" />
+          </div>
+        </div>
+        <div id="billResult" class="result">Total 52.80 • 26.40 each</div>
+        <div class="btns"><button onclick="calcBill()">Calculate</button></div>
+      </section>
+
+      <section class="card span-6">
+        <div class="pill">Quick Help</div>
+        <h2>Common travel phrases</h2>
+        <p class="subtle">Keep a few essentials handy. These are editable so they can be personalized for the actual route.</p>
+        <div class="two-col">
+          <div>
+            <textarea id="phrases">Hello
+Thank you
+Please
+Where is the train station?
+I need help.
+I do not speak the language well.
+Can you write it down?
+How much does this cost?
+Where is the bathroom?
+I need a taxi.</textarea>
+            <div class="btns">
+              <button onclick="savePhrases()">Save phrases</button>
+            </div>
+          </div>
+          <div>
+            <svg class="diagram" viewBox="0 0 420 220" xmlns="http://www.w3.org/2000/svg" aria-label="Phrase help diagram">
+              <rect x="0" y="0" width="420" height="220" rx="18" fill="rgba(255,255,255,.02)"/>
+              <rect x="34" y="34" width="136" height="60" rx="16" fill="rgba(111,224,255,.08)" stroke="rgba(111,224,255,.25)"/>
+              <text x="102" y="70" fill="#eef6ff" font-size="22" text-anchor="middle">Need</text>
+              <rect x="244" y="34" width="136" height="60" rx="16" fill="rgba(255,214,107,.08)" stroke="rgba(255,214,107,.25)"/>
+              <text x="312" y="70" fill="#eef6ff" font-size="22" text-anchor="middle">Phrase</text>
+              <path d="M170 64 H236" stroke="#68d6a3" stroke-width="8" stroke-linecap="round"/>
+              <rect x="108" y="128" width="204" height="52" rx="16" fill="rgba(104,214,163,.08)" stroke="rgba(104,214,163,.25)"/>
+              <text x="210" y="160" fill="#eef6ff" font-size="18" text-anchor="middle">Show screen or read aloud</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-6">
+        <div class="pill">Notes</div>
+        <h2>Quick note / journal capture</h2>
+        <div class="stack">
+          <div>
+            <label for="journalTitle">Title</label>
+            <input id="journalTitle" placeholder="Example: Prague day 3" />
+          </div>
+          <div>
+            <label for="journalText">Note</label>
+            <textarea id="journalText" placeholder="What happened, what worked, what to remember..."></textarea>
+          </div>
+        </div>
+        <div class="btns">
+          <button onclick="saveJournal()">Save note</button>
+          <button class="ghost" onclick="exportJournal()">Export notes JSON</button>
+        </div>
+        <div id="journalList" class="list journal-list"></div>
+      </section>
+
+      <section class="card span-12">
+        <div class="pill">Memory Lane</div>
+        <h2>Memento builder</h2>
+        <p class="subtle">A gentle way to save the little things worth remembering later.</p>
+        <div class="row">
+          <div class="c3"><label for="memCity">City / place</label><input id="memCity" placeholder="Paris" /></div>
+          <div class="c3"><label for="memDate">Date</label><input id="memDate" type="date" /></div>
+          <div class="c3"><label for="memMoment">Moment type</label><input id="memMoment" placeholder="Cafe, train, museum, walk" /></div>
+          <div class="c3"><label for="memCost">Cost</label><input id="memCost" placeholder="12 EUR" /></div>
+          <div class="c12"><label for="memText">Why it mattered</label><textarea id="memText" placeholder="Best pastry of the trip. Tiny table by the window. It rained and the church bells were going."></textarea></div>
+        </div>
+        <div class="btns"><button onclick="saveMemento()">Save memento</button><button class="ghost" onclick="exportMementos()">Export mementos JSON</button></div>
+        <div id="mementoList" class="list"></div>
+      </section>
+
+      <section class="card span-12">
+        <div class="pill">Backup</div>
+        <h2>Import / export this tool page data</h2>
+        <p class="subtle">Use this to back up saved rates, notes, phrases, and mementos to a file. That file can be stored on laptop, phone, cloud drive, or USB backup.</p>
+        <div class="btns">
+          <button onclick="exportAll()">Export all data</button>
+          <label class="btn alt" for="importFile" style="display:inline-flex;align-items:center;justify-content:center;">Import saved data</label>
+          <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importAll(event)" />
+        </div>
+      </section>
+
+      <section class="card span-12">
+        <div class="pill">Embed / Link</div>
+        <h2>Share these tools on another page</h2>
+        <p class="subtle">Generate a small code snippet you can paste into another site or document to embed or link to this tools page.</p>
+        <div class="row">
+          <div class="c6">
+            <label for="embedBase">Site base URL (where this file lives)</label>
+            <input id="embedBase" placeholder="https://example.com/travel/" />
+          </div>
+          <div class="c6">
+            <label>&nbsp;</label>
+            <div class="btns">
+              <button onclick="generateEmbed()">Generate embed snippet</button>
+              <button class="ghost" onclick="copyEmbed()">Copy code</button>
+            </div>
+          </div>
+        </div>
+        <pre id="embedOutput" class="codebox">&lt;!-- Embed snippet will appear here after you click \"Generate embed snippet\" --&gt;</pre>
+      </section>
+    </div>
+
+    <div class="footer">Single-file tools module for the Europe Travel Companion • built for simple offline use</div>
+  </div>
+
+<script>
+const STORAGE_KEY = 'euTravelToolsData_v1';
+const DEFAULT_DATA = {
+  rates: { USD:1, EUR:0.92, GBP:0.79, CHF:0.89, CZK:23.3, HUF:355, PLN:3.95 },
+  phrases: `Hello\nThank you\nPlease\nWhere is the train station?\nI need help.\nI do not speak the language well.\nCan you write it down?\nHow much does this cost?\nWhere is the bathroom?\nI need a taxi.`,
+  journals: [],
+  mementos: []
+};
+let appData = loadData();
+
+function loadData(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    return saved ? { ...DEFAULT_DATA, ...saved, rates:{...DEFAULT_DATA.rates, ...(saved.rates||{})} } : structuredClone(DEFAULT_DATA);
+  }catch(e){
+    return structuredClone(DEFAULT_DATA);
+  }
+}
+function saveData(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
+function fmt(num, digits=2){ return Number(num).toLocaleString(undefined,{minimumFractionDigits:digits, maximumFractionDigits:digits}); }
+function populateCurrencies(){
+  const codes = Object.keys(appData.rates);
+  for(const id of ['fromCurrency','toCurrency','currencyBudget']){
+    const el = document.getElementById(id);
+    el.innerHTML = codes.map(c=>`<option value="${c}">${c}</option>`).join('');
+  }
+  document.getElementById('fromCurrency').value='USD';
+  document.getElementById('toCurrency').value='EUR';
+  document.getElementById('currencyBudget').value='EUR';
+}
+function syncRateInputs(){
+  document.getElementById('rateEUR').value = appData.rates.EUR;
+  document.getElementById('rateGBP').value = appData.rates.GBP;
+  document.getElementById('rateCHF').value = appData.rates.CHF;
+  document.getElementById('rateCZK').value = appData.rates.CZK;
+  document.getElementById('rateHUF').value = appData.rates.HUF;
+  document.getElementById('ratePLN').value = appData.rates.PLN;
+}
+function convertCurrency(){
+  const amount = parseFloat(document.getElementById('amount').value || 0);
+  const from = document.getElementById('fromCurrency').value;
+  const to = document.getElementById('toCurrency').value;
+  const usd = amount / appData.rates[from];
+  const converted = usd * appData.rates[to];
+  document.getElementById('currencyResult').textContent = `${fmt(amount)} ${from} = ${fmt(converted)} ${to}`;
+}
+function saveRates(){
+  appData.rates.EUR = parseFloat(document.getElementById('rateEUR').value || DEFAULT_DATA.rates.EUR);
+  appData.rates.GBP = parseFloat(document.getElementById('rateGBP').value || DEFAULT_DATA.rates.GBP);
+  appData.rates.CHF = parseFloat(document.getElementById('rateCHF').value || DEFAULT_DATA.rates.CHF);
+  appData.rates.CZK = parseFloat(document.getElementById('rateCZK').value || DEFAULT_DATA.rates.CZK);
+  appData.rates.HUF = parseFloat(document.getElementById('rateHUF').value || DEFAULT_DATA.rates.HUF);
+  appData.rates.PLN = parseFloat(document.getElementById('ratePLN').value || DEFAULT_DATA.rates.PLN);
+  saveData(); populateCurrencies(); convertCurrency(); calcBudget();
+}
+function resetRates(){
+  appData.rates = {...DEFAULT_DATA.rates};
+  saveData(); syncRateInputs(); populateCurrencies(); convertCurrency(); calcBudget();
+}
+function calcBudget(){
+  const days = Math.max(1, parseFloat(document.getElementById('tripDays').value || 1));
+  const budget = parseFloat(document.getElementById('tripBudget').value || 0);
+  const currency = document.getElementById('currencyBudget').value;
+  const perDay = budget / days;
+  document.getElementById('budgetResult').textContent = `About ${fmt(perDay)} ${currency} per day`;
+}
+function runConvert(){
+  const type = document.getElementById('convertType').value;
+  const v = parseFloat(document.getElementById('convertValue').value || 0);
+  let out = 0, text='';
+  switch(type){
+    case 'km-mi': out=v*0.621371; text=`${fmt(v)} kilometers = ${fmt(out)} miles`; break;
+    case 'mi-km': out=v/0.621371; text=`${fmt(v)} miles = ${fmt(out)} kilometers`; break;
+    case 'kg-lb': out=v*2.20462; text=`${fmt(v)} kilograms = ${fmt(out)} pounds`; break;
+    case 'lb-kg': out=v/2.20462; text=`${fmt(v)} pounds = ${fmt(out)} kilograms`; break;
+    case 'c-f': out=(v*9/5)+32; text=`${fmt(v)}°C = ${fmt(out)}°F`; break;
+    case 'f-c': out=(v-32)*5/9; text=`${fmt(v)}°F = ${fmt(out)}°C`; break;
+    case 'l-gal': out=v*0.264172; text=`${fmt(v)} liters = ${fmt(out)} gallons`; break;
+    case 'gal-l': out=v/0.264172; text=`${fmt(v)} gallons = ${fmt(out)} liters`; break;
+    case 'cm-in': out=v/2.54; text=`${fmt(v)} cm = ${fmt(out)} inches`; break;
+    case 'in-cm': out=v*2.54; text=`${fmt(v)} inches = ${fmt(out)} cm`; break;
+  }
+  document.getElementById('convertResult').textContent = text;
+}
+function renderClocks(){
+  const rows = [
+    ['Home (Los Angeles)', 'America/Los_Angeles', 'Compare with home'],
+    ['London', 'Europe/London', 'UK time'],
+    ['Paris', 'Europe/Paris', 'France / Central Europe'],
+    ['Rome', 'Europe/Rome', 'Italy'],
+    ['Prague', 'Europe/Prague', 'Central Europe'],
+    ['Athens', 'Europe/Athens', 'Eastern Europe']
+  ];
+  const now = new Date();
+  document.getElementById('clockTable').innerHTML = rows.map(([city,zone,note])=>{
+    const time = new Intl.DateTimeFormat([], {hour:'numeric', minute:'2-digit', weekday:'short', month:'short', day:'numeric', timeZone:zone}).format(now);
+    return `<tr><td>${city}</td><td>${time}</td><td>${note}</td></tr>`;
+  }).join('');
+}
+function calcBag(){
+  const kg = parseFloat(document.getElementById('bagKg').value || 0);
+  const limit = parseFloat(document.getElementById('bagLimitKg').value || 0);
+  const lb = kg*2.20462;
+  const diff = limit-kg;
+  const status = diff >= 0 ? `${fmt(diff,1)} kg under limit` : `${fmt(Math.abs(diff),1)} kg over limit`;
+  document.getElementById('bagResult').textContent = `${fmt(kg,1)} kg = ${fmt(lb,1)} lb • ${status}`;
+}
+function calcLiquids(){
+  const ml = parseFloat(document.getElementById('mlValue').value || 0);
+  const oz = parseFloat(document.getElementById('ozValue').value || 0);
+  const mlToOz = ml*0.033814;
+  const ozToMl = oz/0.033814;
+  document.getElementById('liquidResult').textContent = `${fmt(ml,0)} mL = ${fmt(mlToOz)} fl oz • ${fmt(oz)} fl oz = ${fmt(ozToMl,1)} mL`;
+}
+function calcBill(){
+  const bill = parseFloat(document.getElementById('billAmount').value || 0);
+  const tip = parseFloat(document.getElementById('tipPct').value || 0);
+  const split = Math.max(1, parseInt(document.getElementById('splitCount').value || 1));
+  const total = bill + (bill * tip / 100);
+  document.getElementById('billResult').textContent = `Total ${fmt(total)} • ${fmt(total/split)} each`;
+}
+function savePhrases(){
+  appData.phrases = document.getElementById('phrases').value;
+  saveData();
+}
+function saveJournal(){
+  const title = document.getElementById('journalTitle').value.trim();
+  const text = document.getElementById('journalText').value.trim();
+  if(!title && !text) return;
+  appData.journals.unshift({title: title || 'Untitled note', text, ts: new Date().toISOString()});
+  saveData();
+  document.getElementById('journalTitle').value='';
+  document.getElementById('journalText').value='';
+  renderJournals();
+}
+function renderJournals(){
+  const box = document.getElementById('journalList');
+  if(!appData.journals.length){ box.innerHTML = '<div class="item muted">No notes yet.</div>'; return; }
+  box.innerHTML = appData.journals.map((j,i)=>`<div class="item"><strong>${escapeHtml(j.title)}</strong><div class="subtle">${new Date(j.ts).toLocaleString()}</div><div style="margin-top:8px">${escapeHtml(j.text)}</div><div class="btns"><button class="ghost" onclick="deleteJournal(${i})">Delete</button></div></div>`).join('');
+}
+function deleteJournal(i){ appData.journals.splice(i,1); saveData(); renderJournals(); }
+function exportJournal(){ downloadJson('travel-notes.json', appData.journals); }
+function saveMemento(){
+  const entry = {
+    city: document.getElementById('memCity').value.trim(),
+    date: document.getElementById('memDate').value,
+    moment: document.getElementById('memMoment').value.trim(),
+    cost: document.getElementById('memCost').value.trim(),
+    text: document.getElementById('memText').value.trim(),
+    ts: new Date().toISOString()
+  };
+  if(!entry.city && !entry.text && !entry.moment) return;
+  appData.mementos.unshift(entry); saveData(); renderMementos();
+  ['memCity','memDate','memMoment','memCost','memText'].forEach(id=>document.getElementById(id).value='');
+}
+function renderMementos(){
+  const box = document.getElementById('mementoList');
+  if(!appData.mementos.length){ box.innerHTML = '<div class="item muted">No mementos yet.</div>'; return; }
+  box.innerHTML = appData.mementos.map((m,i)=>`<div class="item"><strong>${escapeHtml(m.city || 'Place')}</strong> • ${escapeHtml(m.moment || 'moment')} ${m.date ? '• ' + escapeHtml(m.date) : ''}<div class="subtle">${escapeHtml(m.cost || '')}</div><div style="margin-top:8px">${escapeHtml(m.text || '')}</div><div class="btns"><button class="ghost" onclick="deleteMemento(${i})">Delete</button></div></div>`).join('');
+}
+function deleteMemento(i){ appData.mementos.splice(i,1); saveData(); renderMementos(); }
+function exportMementos(){ downloadJson('travel-mementos.json', appData.mementos); }
+function exportAll(){ downloadJson('eu-travel-tools-backup.json', appData); }
+function importAll(event){
+  const file = event.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const incoming = JSON.parse(reader.result);
+      appData = { ...DEFAULT_DATA, ...incoming, rates:{...DEFAULT_DATA.rates, ...(incoming.rates||{})} };
+      saveData(); initialize();
+      alert('Imported successfully.');
+    }catch(err){ alert('Could not import that file.'); }
+    event.target.value='';
+  };
+  reader.readAsText(file);
+}
+function downloadJson(filename, data){
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download=filename; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+function escapeHtml(s=''){
+  return s.replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+}
+function generateEmbed(){
+  const baseInput = document.getElementById('embedBase');
+  let base = (baseInput && baseInput.value.trim()) || '';
+  if (!base) {
+    const href = window.location.href;
+    base = href.replace(/[^/]+$/, '');
+  }
+  if (!base.endsWith('/')) base += '/';
+  const url = base + 'europe-tools-modules.html';
+  const iframe = `<iframe
+  src="${url}"
+  title="Europe Travel Tools"
+  style="width:100%;max-width:900px;height:600px;border:1px solid #ccc;border-radius:16px;">
+</iframe>`;
+  const link = `<a href="${url}" target="_blank" rel="noopener">Open Europe Travel Tools</a>`;
+  const out = document.getElementById('embedOutput');
+  if (out) {
+    out.textContent = iframe + '\\n\\n' + link;
+  }
+}
+function copyEmbed(){
+  const out = document.getElementById('embedOutput');
+  if (!out) return;
+  const text = out.textContent || '';
+  if (!text || text.indexOf('Embed snippet will appear here') !== -1) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(()=>fallbackCopy(text));
+  } else {
+    fallbackCopy(text);
+  }
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+}
+function initialize(){
+  populateCurrencies();
+  syncRateInputs();
+  document.getElementById('phrases').value = appData.phrases;
+  convertCurrency(); calcBudget(); runConvert(); renderClocks(); calcBag(); calcLiquids(); calcBill(); renderJournals(); renderMementos();
+}
+initialize();
+setInterval(renderClocks, 60000);
+</script>
+</body>
+</html>
