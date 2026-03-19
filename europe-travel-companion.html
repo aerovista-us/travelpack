@@ -277,7 +277,7 @@
             <div>
               <div class="eyebrow">Personal Travel Companion</div>
               <h1 id="heroTitle">European Travel Companion</h1>
-              <p class="lead">A dead-simple, high-value trip helper that works offline, keeps everything in one place, and is built for a solo traveler who should not have to fight technology.</p>
+              <p class="lead">A dead-simple, high-value trip helper that works offline, keeps everything in one place, and now combines the live itinerary, stay details, travel prep guide, tools, notes, and memory capture in one main dashboard.</p>
             </div>
           </div>
         </div>
@@ -296,10 +296,12 @@
         <span class="chip">Journal + memories</span>
         <span class="chip">Emergency info</span>
         <span class="chip">Packing + documents</span>
+        <span class="chip">Prep guide built in</span>
       </div>
       <div class="subnav" style="margin-top:14px;">
         <button data-tab="overview" class="active">Overview</button>
         <button data-tab="itinerary">Itinerary</button>
+        <button data-tab="prep">Travel Prep</button>
         <button data-tab="essentials">Essentials</button>
         <button data-tab="journal">Journal</button>
         <button data-tab="tips">Tips</button>
@@ -411,6 +413,23 @@
         <div class="card">
           <h2>Itinerary timeline</h2>
           <div id="itineraryList" class="list"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="tab-prep" class="tab hidden">
+      <div class="grid g2">
+        <div class="card">
+          <h2>Travel prep module</h2>
+          <p class="muted">This keeps the gear, charging, hotspot, plug, and packing strategy page inside the companion so the trip dashboard stays the main home.</p>
+          <p class="muted small">Open it below, or launch it full-screen if you want the wider reading layout.</p>
+          <div class="btns" style="margin-top:10px;">
+            <a class="btn" href="europe-travel-prep.html" target="_blank" rel="noopener">Open full travel prep page</a>
+          </div>
+        </div>
+        <div class="card">
+          <iframe class="tools-frame" src="europe-travel-prep.html" title="Europe travel prep"></iframe>
         </div>
       </div>
     </section>
@@ -585,22 +604,45 @@
 
   <script>
     const STORAGE_KEY = 'euTravelCompanion_v1';
-    const tabs = ['overview','itinerary','essentials','journal','tips','memories','settings','tools'];
+    const tabs = ['overview','itinerary','prep','essentials','journal','tips','memories','settings','tools'];
     const defaultState = {
       profile: {
-        travelerName: '', tripName: '', tripStart: '', tripEnd: '', homeContact: '', tripRegion: '', tripGoal: ''
+        travelerName: 'Mom (Cindy)',
+        tripName: 'Italy Travel Companion',
+        tripStart: '2026-03-17',
+        tripEnd: '2026-04-14',
+        homeContact: 'Giovanni Santi · +39 339 2249 217',
+        tripRegion: 'Italy',
+        tripGoal: 'Keep all lodging, flights, contacts, confirmations, and travel prep in one offline-friendly place.'
       },
-      itinerary: [],
+      itinerary: [
+        { id: crypto.randomUUID(), date:'2026-03-17', time:'', city:'Munich', type:'Flight', title:'Outbound flight · Denver → Munich', address:'Flight segment', note:'Confirmation CEAG9E' },
+        { id: crypto.randomUUID(), date:'2026-03-17', time:'', city:'Ancona', type:'Flight', title:'Outbound flight · Munich → Ancona', address:'Flight segment', note:'Arrival into Italy' },
+        { id: crypto.randomUUID(), date:'2026-03-18', time:'', city:'Falconara Marittima', type:'Stay', title:'Check in · Raffaello House', address:'Via della Stazione, 51, 60015', note:'3/18–3/20 · Near Ancona Falconara Airport · Phone: +39 339 2249 217 (last digits slightly uncertain)' },
+        { id: crypto.randomUUID(), date:'2026-03-20', time:'', city:'Ancona', type:'Stay', title:'Check in · Bed + Breakfast Triestello', address:'Via Martino 10, 60122', note:'3/20–3/23 · Phone: +39 345 462337 (partly scribbled / uncertain)' },
+        { id: crypto.randomUUID(), date:'2026-03-23', time:'', city:'Ancona', type:'Stay', title:'Check in · Loros Dimora Dorica', address:'Via Michele Fazioli, 22/A, Piano Terra, 60123', note:'3/23–3/31 · Name somewhat uncertain' },
+        { id: crypto.randomUUID(), date:'2026-03-31', time:'', city:'Ancona', type:'Stay', title:'Check in · La Finestra Sul Porto Apartment', address:'Via Rupi Comunali, 3, 60121', note:'3/31–4/7' },
+        { id: crypto.randomUUID(), date:'2026-04-07', time:'', city:'San Giorgio di Pesaro', type:'Stay', title:'Stay with Giovanni & Paola', address:'Via Castello, 58, 61038 San Giorgio di Pesaro (PU), Italy', note:'4/7–4/11' },
+        { id: crypto.randomUUID(), date:'2026-04-11', time:'', city:'Falconara Marittima', type:'Stay', title:'Check in · Appartamento Monforti mare e posizione top', address:'Via Guglielmo Oberdan 2, Falconara Marittima, 60015', note:'4/11–4/13' },
+        { id: crypto.randomUUID(), date:'2026-04-13', time:'', city:'Munich', type:'Flight', title:'Return flight · Ancona → Munich', address:'Return segment', note:'Start trip home' },
+        { id: crypto.randomUUID(), date:'2026-04-13', time:'', city:'San Francisco', type:'Flight', title:'Return flight · Munich → San Francisco', address:'Return segment', note:'' },
+        { id: crypto.randomUUID(), date:'2026-04-13', time:'', city:'Spokane', type:'Flight', title:'Return flight · San Francisco → Spokane', address:'Return segment', note:'' },
+        { id: crypto.randomUUID(), date:'2026-04-14', time:'', city:'Spokane', type:'Stay', title:'Ramada overnight', address:'8909 W Air Port Dr., Spokane', note:'Arrival lodging' }
+      ],
       packing: [
         { id: crypto.randomUUID(), name: 'Passport', category: 'Documents', note: 'Keep in personal item', packed: false },
         { id: crypto.randomUUID(), name: 'Phone charger', category: 'Tech', note: 'Carry-on', packed: false },
         { id: crypto.randomUUID(), name: 'Prescription medicine', category: 'Health', note: 'Original bottles', packed: false }
       ],
       documents: [
+        { id: crypto.randomUUID(), name: 'Confirmation number', location: 'CEAG9E', note: 'Main itinerary confirmation' },
         { id: crypto.randomUUID(), name: 'Passport copy', location: 'Phone + email', note: 'PDF and screenshots' },
-        { id: crypto.randomUUID(), name: 'Flight confirmations', location: 'Email + screenshots', note: 'Save offline' }
+        { id: crypto.randomUUID(), name: 'Flight confirmations', location: 'Email + screenshots', note: 'Save offline' },
+        { id: crypto.randomUUID(), name: 'Giovanni Santi address', location: 'Via Castello, 58, 61038 San Giorgio di Pesaro (PU), Italy', note: 'Family stay / destination contact' }
       ],
-      contacts: [],
+      contacts: [
+        { id: crypto.randomUUID(), name:'Giovanni Santi', phone:'+39 339 2249 217', role:'Italy contact / family stay' }
+      ],
       journal: [],
       tips: [],
       memories: []
@@ -993,11 +1035,11 @@
     function loadSeed(){
       state.profile = {
         travelerName: 'Mom',
-        tripName: 'Europe Companion Trip',
-        tripStart: '2026-05-10',
-        tripEnd: '2026-06-10',
+        tripName: 'Italy Travel Companion',
+        tripStart: '2026-03-17',
+        tripEnd: '2026-04-14',
         homeContact: 'Primary family check-in',
-        tripRegion: 'France, Italy, UK',
+        tripRegion: 'Italy',
         tripGoal: 'Stay relaxed, keep everything simple, and save meaningful memories.'
       };
       state.itinerary = [
